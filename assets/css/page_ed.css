@@ -1,0 +1,29 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+#welcome-message {
+    transition: opacity 0.5s ease-in-out, height 0.5s ease-in-out;
+    height: auto;
+}
+
+#educational-content {
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s ease-in-out;
+}
