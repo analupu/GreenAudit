@@ -1,3 +1,29 @@
+html, body {
+    height: 100%;
+    margin: 0;
+    /*overflow-x: hidden;*/
+    /*overflow-y: auto;*/
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+}
+
+.navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: 1000;
+}
+
+/*main {*/
+/*    min-height: 100vh;*/
+/*    display: flex;*/
+/*    flex-direction: row;*/
+/*    width: 100%;*/
+/*}*/
+
 #welcome-message {
     opacity: 1;
     height: auto;
