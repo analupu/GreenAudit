@@ -70,9 +70,9 @@
                                                 <table class="table">
                                                     <thead>
                                                         <tr>
+                                                            <th scope="col">Numar</th>
                                                             <th scope="col">Marca</th>
                                                             <th scope="col">Clasa energetica</th>
-                                                            <th scope="col">Numar</th>
                                                             <th scope="col">Denumire</th>
                                                             <th scope="col">Consum (kW)</th>
                                                             <th scope="col">Ore</th>
