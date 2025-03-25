@@ -9,17 +9,17 @@
         $settings = json_decode($row['settings'], true);
 
         $series[0][] = [
-            'x' => $settings['updatedAt'],
+            'x' => isset($settings['updatedAt']) ? $settings['updatedAt'] : $row['created_at'],
             'y' => $settings['venitLunar'],
         ];
 
         $series[1][] = [
-            'x' => $settings['updatedAt'],
+            'x' => isset($settings['updatedAt']) ? $settings['updatedAt'] : $row['created_at'],
             'y' => $settings['numarulMembrilor'],
         ];
 
         $series[2][] = [
-            'x' => $settings['updatedAt'],
+            'x' => isset($settings['updatedAt']) ? $settings['updatedAt'] : $row['created_at'],
             'y' => (int)$settings['venitLunar'] / (int)$settings['numarulMembrilor'],
         ];
     }
@@ -31,17 +31,17 @@
 
 
         $series[0][] = [
-            'x' => $settings['updatedAt'],
+            'x' => isset($settings['updatedAt']) ? $settings['updatedAt'] : $row['created_at'],
             'y' => $settings['venitLunar'],
         ];
 
         $series[1][] = [
-            'x' => $settings['updatedAt'],
+            'x' => isset($settings['updatedAt']) ? $settings['updatedAt'] : $row['created_at'],
             'y' => $settings['numarulMembrilor'],
         ];
 
         $series[2][] = [
-            'x' => $settings['updatedAt'],
+            'x' => isset($settings['updatedAt']) ? $settings['updatedAt'] : $row['created_at'],
             'y' => (int)$settings['venitLunar'] / (int)$settings['numarulMembrilor'],
         ];
     }
