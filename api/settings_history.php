@@ -1,6 +1,6 @@
 <?php
-    require_once '../inc/check_login.php';
-    require_once('../inc/config.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 
     $querySettingsHistory = mysqli_query($con, "SELECT `settings`, `created_at` FROM `settings_history` WHERE `user_id` = '" . $_SESSION['audit_logged_in_user_id'] . "'");
 
@@ -48,6 +48,4 @@
 
 
     echo json_encode($series);
-
-
 ?>

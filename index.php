@@ -1,14 +1,15 @@
 <?php
-    require_once 'inc/check_login.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
 ?>
+
 <!doctype html>
 <html lang="ro" data-bs-theme="auto">
     <head>
-        <?php require_once 'inc/head.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
     </head>
     <body>
-        <?php require_once 'inc/theme_switcher.php'; ?>
-        <?php require_once 'inc/nav.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
         <main class="container">
             <button class="btn btn-primary my-2" type="button" name="submit" id="btnAdaugaAparatNou"><i
                         class="fa-solid fa-add"></i> Adauga aparat nou
@@ -106,6 +107,6 @@
                 </form>
             </div>
         </main>
-        <?php require_once 'inc/javascript.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>
     </body>
 </html>

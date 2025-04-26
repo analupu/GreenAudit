@@ -1,8 +1,9 @@
 <?php
+    session_name('audit_user');
     session_start();
 
     if (!isset($_SESSION['audit_logged_in'])) {
-        header('Location: ../login.php');
+        header('Location: /login.php');
         die;
     } else {
         $is_logged = true;

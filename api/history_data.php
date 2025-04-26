@@ -1,6 +1,6 @@
 <?php
-    require_once '../inc/check_login.php';
-    require_once('../inc/config.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 
     $queryConsumLunar = mysqli_query($con, "SELECT `content`, `created_at` FROM `results_history` WHERE `user_id` = '" . $_SESSION['audit_logged_in_user_id'] . "'");
 
@@ -53,6 +53,4 @@
 
 
     echo json_encode($series);
-
-
 ?>

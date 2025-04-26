@@ -1,6 +1,6 @@
 <?php
-    require_once '../inc/check_login.php';
-    require_once('../inc/config.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 
     $currentSettings = false;
     $currentSettingsQuery = mysqli_query($con, "SELECT `settings` FROM `users` WHERE `id`= '" . $_SESSION['audit_logged_in_user_id'] . "'");
@@ -23,36 +23,34 @@
         mysqli_query($con, "INSERT INTO `settings_history` (`user_id`, `settings`) VALUES ('" . $_SESSION['audit_logged_in_user_id'] . "', '" . json_encode($currentSettings) . "')");
 
         mysqli_query($con, "UPDATE `users` SET `settings` = '" . $values . "' WHERE `id` = '" . $_SESSION['audit_logged_in_user_id'] . "'");
-        header('location: settings.php');
+        header('location: /my_account/settings.php');
         die;
     }
 ?>
 <!doctype html>
 <html lang="ro" data-bs-theme="auto">
 <head>
-    <?php require_once '../inc/head.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
 </head>
 <body>
-<?php require_once '../inc/theme_switcher.php'; ?>
-<?php require_once '../inc/nav.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
 <main class="d-flex">
     <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
-        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-            <span class="fs-4">Contul meu</span>
-        </a>
+        <h2 class="fs-4">Contul meu</h2>
         <hr>
         <ul class="nav nav-pills flex-column mb-auto">
             <li class="nav-item">
-                <a href="index.php" class="nav-link text-white" aria-current="page"><i class="fa-solid fa-user"></i>
+                <a href="/my_account/index.php" class="nav-link text-white" aria-current="page"><i class="fa-solid fa-list"></i>
                     Rezumat
                 </a>
             </li>
             <li>
-                <a href="history.php" class="nav-link text-white"><i class="fa-solid fa-clock-rotate-left"></i>
+                <a href="/my_account/history.php" class="nav-link text-white"><i class="fa-solid fa-clock-rotate-left"></i>
                     Istoric
                 </a>
             </li><li>
-                <a href="settings.php" class="nav-link text-white active"><i class="fa-solid fa-gear"></i>
+                <a href="/my_account/settings.php" class="nav-link text-white active"><i class="fa-solid fa-gear"></i>
                     Setari
                 </a>
             </li>
@@ -65,11 +63,11 @@
                 <div class="card mb-5">
                     <div class="card-body">
                         <div class="form-floating mb-3">
-                            <input class="form-control" type="number" id="venitLunar" name="venitLunar" placeholder="Venit lunar" value="<?php if ($currentSettings) { echo $currentSettings['venitLunar']; } ?>">
+                            <input class="form-control" type="number" id="venitLunar" name="venitLunar" placeholder="Venit lunar" required value="<?php if ($currentSettings) { echo $currentSettings['venitLunar']; } ?>">
                             <label for="venitLunar">Venit lunar</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" type="number" id="numarulMembrilor" name="numarulMembrilor" placeholder="Numarul membrilor din gospodarie" value="<?php if ($currentSettings) { echo $currentSettings['numarulMembrilor']; } ?>">
+                            <input class="form-control" type="number" id="numarulMembrilor" name="numarulMembrilor" placeholder="Numarul membrilor din gospodarie" required value="<?php if ($currentSettings) { echo $currentSettings['numarulMembrilor']; } ?>">
                             <label for="numarulMembrilor">Numarul membrilor din gospodarie</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -83,6 +81,6 @@
         </form>
     </div>
 </main>
-<?php require_once '../inc/javascript.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>
 </body>
 </html>

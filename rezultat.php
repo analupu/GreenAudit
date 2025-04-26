@@ -1,13 +1,13 @@
 <?php
-    require_once 'inc/check_login.php';
-    require_once('inc/config.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 
 
     if (isset($_GET['save'])) {
         $contentHash = md5(json_encode($_GET['consumers']));
         mysqli_query($con, "INSERT INTO `results_history` (`user_id`, `content`, `content_hash`) VALUES ('" . $_SESSION['audit_logged_in_user_id'] . "', '" . json_encode($_GET['consumers']) . "', '" . $contentHash . "')");
         unset($_GET['save']);
-        header('Location: rezultat.php?' . http_build_query($_GET));
+        header('Location: /rezultat.php?' . http_build_query($_GET));
         die;
     }
 
@@ -25,11 +25,11 @@
 <!doctype html>
 <html lang="ro" data-bs-theme="auto">
     <head>
-        <?php require_once 'inc/head.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
     </head>
     <body>
-        <?php require_once 'inc/theme_switcher.php'; ?>
-        <?php require_once 'inc/nav.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
         <main class="container">
             <div class="bg-body-tertiary p-5 rounded row">
                 <div class="col-10 offset-1">
@@ -152,8 +152,8 @@
                 <div class="col-10 offset-1 mt-5 text-center">
                     <h1 class="h3 mb-3 fw-normal">Consum total lunar</h1>
                         <?php
+                             echo "<h2>" . number_format($grandTotalConsum, 2) . " kW</h2>";
                             $consumTotalLunarLei = 0;
-
                             if ($grandTotalConsum <= 100) {
                                 $consumTotalLunarLei = $grandTotalConsum * 0.68;
                                 echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
@@ -168,10 +168,59 @@
                                 echo '<h5>0.00 - 255.00 Kw = 0.80 Lei/kW</h5>';
                                 echo '<h5>256.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
                             }
+
                         ?>
                 </div>
                 <?php if (!empty($userSettings['venitLunar']) && !empty($userSettings['numarulMembrilor'])) { ?>
                     <div class="col-10 offset-1 mt-5 text-center">
+                        <?php
+                            $totalsArray = [];
+
+                            $history_query = mysqli_query($con, "SELECT `id`, `content`, `content_hash`, `created_at` FROM `results_history`  WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` DESC");
+                            if (mysqli_num_rows($history_query)) {
+                                while ($historyRow = mysqli_fetch_assoc($history_query)) {
+                                    $consumTotalLunarLei = 0;
+                                    $totalPower = 0;
+                                    $totalRunTime = 0;
+                                    $totalCount = 0;
+
+                                    foreach (json_decode($historyRow['content'], true) as $consumer) {
+
+                                        $totalPower += (int)$consumer['power'] / 1000;
+                                        $totalRunTime += (int)$consumer['runTime'] * 30;
+                                        $totalCount += (int)$consumer['count'];
+
+                                        $total = ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
+                                        $totalsArray[] = $total;
+                                    }
+                                }
+
+                                $totalsArray[] = $grandTotalConsum;
+
+
+                                $totalsArray = array_reverse($totalsArray);
+                                $copacei = 0;
+                                foreach ($totalsArray as $i => $total) {
+                                    if ($i > 0) {
+                                        $dif = $totalsArray[$i-1] - $total;
+                                        if ($dif > 0) {
+                                            $copacei += $dif / 10;
+                                        } else {
+                                            $copacei -= abs($dif) / 10;
+                                        }
+                                    }
+                                }
+
+                                if ($copacei > 0) {
+                                    echo '<h1>Copaci salvati</h1>';
+                                    echo $copacei . ' copacei salvati prin reducerea consumului cu ' . $copacei * 10 . ' kW raportat la prima simulare.<br />(Este necesara salveaza simularii curente.)' ;
+                                } else {
+                                    echo '<h1>Copaci pierduti</h1>';
+                                    echo abs($copacei) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei) * 10 . ' kW raportat la prima simulare';
+                                }
+
+                            }
+                        ?>
                         <h1 class="h3 mb-3 fw-normal">Status</h1>
                         <?php
                             $procentConsumPersoana =  ($consumTotalLunarLei  * 100) / ((int)$userSettings['venitLunar'] / (int)$userSettings['numarulMembrilor']);
@@ -201,22 +250,22 @@
                     </div>
                 <?php } ?>
                 <div class="col-10 offset-1 mt-5 text-center">
-                    <a href="index.php?recalculeaza=true&<?php echo http_build_query($_GET) ?>" class="btn btn-primary py-2 w-25 mb-4"><i
+                    <a href="/index.php?recalculeaza=true&<?php echo http_build_query($_GET) ?>" class="btn btn-primary py-2 w-25 mb-4"><i
                                 class="fa-solid fa-calculator"></i> Recalculeaza
                     </a>
                     <br />
                 <?php if (!$alreadyExists) { ?>
-                    <a href="rezultat.php?save=true&<?php echo http_build_query($_GET) ?>" class="btn btn-primary py-2 w-25"><i
+                    <a href="/rezultat.php?save=true&<?php echo http_build_query($_GET) ?>" class="btn btn-primary py-2 w-25"><i
                                 class="fa-solid fa-save"></i> Salveaza rezultat
                     </a>
                 <?php } else { ?>
-                    <a href="my_account/history.php?entry=<?php echo mysqli_fetch_row($alreadyExistsQuery)[0]; ?>" class="btn btn-primary py-2 w-25"><i
+                    <a href="/my_account/history.php?entry=<?php echo mysqli_fetch_row($alreadyExistsQuery)[0]; ?>" class="btn btn-primary py-2 w-25"><i
                                 class="fa-solid fa-save"></i> Vezi in istoric
                     </a>
                 <?php } ?>
                 </div>
             </div>
         </main>
-        <?php require_once 'inc/javascript.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>
     </body>
 </html>

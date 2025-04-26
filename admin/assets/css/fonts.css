@@ -1,0 +1,11 @@
+@font-face {
+    font-family: "summernote";
+    font-style: normal;
+    font-weight: 400;
+    font-display: auto;
+    src: url('/admin/assets/fonts/summernote.eot');
+    src: url('/admin/assets/fonts/summernote.eot?#iefix') format("embedded-opentype"),
+    url('/admin/assets/fonts/summernote.woff2') format("woff2"),
+    url('/admin/assets/fonts/summernote.woff') format("woff"),
+    url('/admin/assets/fonts/summernote.ttf') format("truetype");
+}

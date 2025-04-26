@@ -7,3 +7,4 @@
 <link href="/assets/dist/css/bootstrap.min.css" rel="stylesheet">
 <link href="/assets/css/style.css" rel="stylesheet">
 <link href="/assets/css/navbar-fixed.css" rel="stylesheet">
+<link href="/admin/assets/css/fonts.css" rel="stylesheet">

@@ -1,11 +1,12 @@
 <?php
-    require_once '../inc/check_login.php';
-    require_once('../inc/config.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+    require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
     if (isset($_GET['delete_id'])) {
         $delete_id = $_GET['delete_id'];
 
         mysqli_query($con, "DELETE FROM results_history WHERE id=$delete_id");
-        header('location: history.php'); die;
+        header('location: /my_account/history.php');
+        die;
     }
 
     $settingsQuery = mysqli_query($con, "SELECT `settings` FROM `users` WHERE `id` = '" . $_SESSION['audit_logged_in_user_id'] . "'");
@@ -17,30 +18,28 @@
 <!doctype html>
 <html lang="ro" data-bs-theme="auto">
     <head>
-        <?php require_once '../inc/head.php'; ?>
-        <link href="../assets/css/page_ed.css" rel="stylesheet">
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
+        <link href="/assets/css/page_ed.css" rel="stylesheet">
     </head>
     <body>
-        <?php require_once '../inc/theme_switcher.php'; ?>
-        <?php require_once '../inc/nav.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
         <main class="d-flex">
             <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
-                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
-                    <span class="fs-4">Contul meu</span>
-                </a>
+                <h2 class="fs-4">Contul meu</h2>
                 <hr>
                 <ul class="nav nav-pills flex-column mb-auto">
                     <li class="nav-item">
-                        <a href="index.php" class="nav-link text-white" aria-current="page"><i class="fa-solid fa-user"></i>
+                        <a href="/my_account/index.php" class="nav-link text-white" aria-current="page"><i class="fa-solid fa-list"></i>
                             Rezumat
                         </a>
                     </li>
                     <li>
-                        <a href="history.php" class="nav-link active text-white"><i class="fa-solid fa-clock-rotate-left"></i>
+                        <a href="/my_account/history.php" class="nav-link active text-white"><i class="fa-solid fa-clock-rotate-left"></i>
                             Istoric
                         </a>
                     </li><li>
-                        <a href="settings.php" class="nav-link text-white"><i class="fa-solid fa-gear"></i>
+                        <a href="/my_account/settings.php" class="nav-link text-white"><i class="fa-solid fa-gear"></i>
                             Setari
                         </a>
                     </li>
@@ -48,11 +47,12 @@
             </div>
             <div class="content">
                 <?php
-                    $history_query = mysqli_query($con, "SELECT `id`, `content`, `content_hash`, `created_at` FROM `results_history`  WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` DESC");
+                    $history_query = mysqli_query($con, "SELECT `id`, `content`, `content_hash`, `created_at` FROM `results_history`  WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY id DESC");
 
                     if (mysqli_num_rows($history_query)) {
-                        $ia = 0;
-                        while ($historyRow = mysqli_fetch_assoc($history_query)) { ?>
+                        $historyRows = mysqli_fetch_all($history_query, MYSQLI_ASSOC);
+
+                        foreach ($historyRows as $ia => $historyRow) { ?>
                             <div class="accordion" id="accordionExample<?php echo $ia ?>">
                                 <div class="accordion-item">
                                     <h2 class="accordion-header">
@@ -181,8 +181,9 @@
                                             <div class="col-8 offset-2 mt-5 text-center">
                                                 <h1 class="h3 mb-3 fw-normal">Consum total lunar</h1>
                                                 <?php
-                                                $consumTotalLunarLei = 0;
+                                                echo "<h2>" . number_format($grandTotalConsum, 2) . " kW</h2>";
 
+                                                $consumTotalLunarLei = 0;
                                                 if ($grandTotalConsum <= 100) {
                                                     $consumTotalLunarLei = $grandTotalConsum * 0.68;
                                                     echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
@@ -201,6 +202,73 @@
                                             </div>
                                             <?php if (!empty($userSettings['venitLunar']) && !empty($userSettings['numarulMembrilor'])) { ?>
                                                 <div class="col-8 offset-2 mt-5 text-center">
+                                                    <?php
+                                                        if ($ia < (count($historyRows) - 1)) {
+                                                            $copacei = 0;
+
+                                                            $nextHistoryEntry = $historyRows[$ia + 1];
+
+                                                            $nextGrandTotalConsum = 0;
+                                                            foreach (json_decode($nextHistoryEntry['content'], true) as $nextHistoryConsumer) {
+                                                                $totalPower += (int)$nextHistoryConsumer['power'] / 1000;
+                                                                $totalRunTime += (int)$nextHistoryConsumer['runTime'] * 30;
+                                                                $totalCount += (int)$nextHistoryConsumer['count'];
+
+                                                                $total = ((int)$nextHistoryConsumer['power'] / 1000) * ((int)$nextHistoryConsumer['runTime'] * 30) * (int)$nextHistoryConsumer['count'];
+                                                                $nextGrandTotalConsum += $total;
+                                                            }
+
+                                                            $totalsArray = [];
+                                                            foreach ($historyRows as $i2 => $historyRow2) {
+                                                                if ($i2 >= $ia) {
+                                                                    foreach (json_decode($historyRow2['content'], true) as $historyRow2Conten) {
+                                                                        $totalPower += (int)$historyRow2Conten['power'] / 1000;
+                                                                        $totalRunTime += (int)$historyRow2Conten['runTime'] * 30;
+                                                                        $totalCount += (int)$historyRow2Conten['count'];
+
+                                                                        $total = ((int)$historyRow2Conten['power'] / 1000) * ((int)$historyRow2Conten['runTime'] * 30) * (int)$historyRow2Conten['count'];
+                                                                        $totalsArray[] = $total;
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            $totalsArray = array_reverse($totalsArray);
+                                                            $copacei2 = 0;
+                                                            foreach ($totalsArray as $i => $total) {
+                                                                if ($i > 0) {
+                                                                    $dif2 = $totalsArray[$i-1] - $total;
+                                                                    if ($dif2 > 0) {
+                                                                        $copacei2 += $dif2 / 10;
+                                                                    } else {
+                                                                        $copacei2 -= abs($dif2) / 10;
+                                                                    }
+                                                                }
+                                                            }
+
+                                                            $dif = $nextGrandTotalConsum - $grandTotalConsum;
+                                                            if ($dif > 0) {
+                                                                $copacei += $dif / 10;
+                                                            } else {
+                                                                $copacei -= abs($dif) / 10;
+                                                            }
+
+                                                            if ($copacei > 0) {
+                                                                echo '<h1>Copaci salvati fata de simularea precedenta</h1>';
+                                                                echo $copacei . ' copacei salvati prin reducerea consumului cu ' . $copacei * 10 . ' kW.';
+                                                            } else {
+                                                                echo '<h1>Copaci pierduti fata de simularea precedenta</h1>';
+                                                                echo abs($copacei) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei) * 10 . ' kW.';
+                                                            }
+
+                                                            if ($copacei2 > 0) {
+                                                                echo '<h1>Copaci salvati fata de prima simulare</h1>';
+                                                                echo $copacei2 . ' copacei salvati prin reducerea consumului cu ' . $copacei2 * 10 . ' kW.';
+                                                            } else {
+                                                                echo '<h1>Copaci pierduti fata de prima simulare</h1>';
+                                                                echo abs($copacei2) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei2) * 10 . ' kW.';
+                                                            }
+                                                        }
+                                                    ?>
                                                     <h1 class="h3 mb-3 fw-normal">Status</h1>
                                                     <?php
                                                     $procentConsumPersoana =  ($consumTotalLunarLei  * 100) / ((int)$userSettings['venitLunar'] / (int)$userSettings['numarulMembrilor']);
@@ -234,7 +302,7 @@
                                                             class="fa-solid fa-calculator"></i> Recalculeaza
                                                 </a>
                                                 <br />
-                                                <a href="history.php?delete_id=<?php echo $historyRow['id']; ?>" class="btn btn-danger py-2 deleteHistoryRecord"><i
+                                                <a href="/my_account/history.php?delete_id=<?php echo $historyRow['id']; ?>" class="btn btn-danger py-2 deleteHistoryRecord"><i
                                                             class="fa-solid fa-trash"></i> Sterge
                                                 </a>
                                             </div>
@@ -250,7 +318,7 @@
                 <?php } ?>
             </div>
         </main>
-        <?php require_once '../inc/javascript.php'; ?>
+        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>
         <script src="../assets/js/history.js"></script>
     </body>
 </html>

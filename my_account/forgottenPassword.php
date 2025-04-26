@@ -1,6 +1,5 @@
 <?php
-    session_start();
-    require_once('../inc/config.php');
+    require_once $_SERVER['DOCUMENT_ROOT'] .'/inc/config.php';
 
     if (isset($_POST['submit'])) {
         $form_email = $_POST['email'];
@@ -20,12 +19,12 @@
 <!doctype html>
 <html lang="ro" data-bs-theme="auto">
 <head>
-    <?php require_once '../inc/head.php'; ?>
+    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
     <link href="../assets/css/sign-in.css" rel="stylesheet">
 </head>
 <body>
-<?php require_once '../inc/theme_switcher.php'; ?>
-<?php require_once '../inc/nav.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
 <main class="form-signin w-100 m-auto">
     <form action="" method="post">
         <h1 class="h3 mb-3 fw-normal">Parola uitata</h1>
@@ -44,6 +43,6 @@
 
     </form>
 </main>
-<?php require_once '../inc/javascript.php'; ?>
+<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>
 </body>
 </html>

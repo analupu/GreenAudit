@@ -11,6 +11,9 @@ var options_history = {
     noData: {
         text: 'Loading...'
     },
+    grid: {
+        show: false,
+    },
     yaxis: [
         {
             labels: {
@@ -119,6 +122,9 @@ var options_settings_history = {
             fontWeight:  'bold',
             color:  '#ffffff'
         },
+    },
+    grid: {
+        show: false,
     }
 }
 
