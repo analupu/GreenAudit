@@ -12,7 +12,7 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
 <main class="d-flex">
     <div class="container">
-        <div class="position-relative overflow-hidden m-md-3 text-center bg-body-tertiary" style="background-image: url('/images/background_page_ed.jpg')";>
+        <div class="position-relative overflow-hidden m-md-3 text-center bg-body-tertiary" style="background-image: url('/images/nature_backgound.jpg')";>
             <nav class="navbar navbar-expand-md bg-dark sticky-top border-bottom" data-bs-theme="dark">
                 <div class="container-fluid">
                     <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvas" aria-controls="offcanvas" aria-label="Toggle navigation">

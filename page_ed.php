@@ -43,7 +43,7 @@
                             <div class="carousel-caption text-end">
                                 <h1>Descopera galeria noastra educativa.</h1>
                                 <p>Vizualizeaza imagini explicative, infografice si exemple din viata reala.</p>
-                                <p><a class="btn btn-lg btn-secondary" href="/educational_page/imagini.php">Vezi galeria</a></p>
+                                <p><a class="btn btn-lg btn-secondary" href="/imagini/index.php">Vezi galeria</a></p>
                             </div>
                         </div>
                     </div>

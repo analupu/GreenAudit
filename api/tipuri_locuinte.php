@@ -1,5 +1,5 @@
 <?php
-require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+//require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
 require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 
 $usersSettings = mysqli_query($con, "SELECT `settings` FROM `users`");

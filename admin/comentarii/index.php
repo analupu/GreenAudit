@@ -69,6 +69,14 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                         <?php } ?>
                     </div>
                 </form>
+
+                <div class="d-flex justify-content-end mb-3">
+                    <div class="input-group input-group-sm" style="width: 250px;">
+                    <span class="input-group-text bg-secondary border-secondary text-white"><i class="fas fa-search"></i></span>
+                        <input type="text" id="searchInput" class="form-control bg-dark text-white border-secondary" placeholder="Caută...">
+                    </div>
+                </div>
+
                 <?php if (mysqli_num_rows($comentarii)) { ?>
                     <table class="table mt-3">
                         <thead>
@@ -78,12 +86,44 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                             <th>Titlu</th>
                             <th>Continut</th>
                             <th>Data</th>
+                            <th>Ton</th>
                             <th>Actiune</th>
                         </tr>
                         </thead>
                         <tbody>
                         <?php
                         if (mysqli_num_rows($comentarii)) {
+
+                            // functie care detecteaza tonul utilizatorului dupa cuvinte cheie din comentariu
+                            function detecteazaTon($text)
+                            {
+                                $pozitive = ['bine', 'frumos', 'excelent', 'superb', 'apreciez', 'mulțumesc', 'interesant', 'îmi place', 'util', 'foarte bun', 'clar', 'super'];
+                                $negative = ['prost', 'rău', 'inutil', 'urât', 'slab', 'nu-mi place', 'dezamăgitor', 'greșit', 'deranjant', 'confuz'];
+
+                                $text = mb_strtolower($text, 'UTF-8');
+                                $scor = 0;
+
+                                foreach ($pozitive as $cuvant) {
+                                    if (strpos($text, $cuvant) !== false) {
+                                        $scor += 1;
+                                    }
+                                }
+
+                                foreach ($negative as $cuvant) {
+                                    if (strpos($text, $cuvant) !== false) {
+                                        $scor -= 1;
+                                    }
+                                }
+
+                                if ($scor > 0) {
+                                    return '<span class="badge bg-success">Pozitiv</span>';
+                                } elseif ($scor < 0) {
+                                    return '<span class="badge bg-danger">Negativ</span>';
+                                } else {
+                                    return '<span class="badge bg-secondary">Neutru</span>';
+                                }
+                            }
+
                             while ($comentariu = mysqli_fetch_assoc($comentarii)) {
                                 echo '<tr class="align-middle">';
                                 echo '<td>' . $comentariu['id'] . '</td>';
@@ -93,6 +133,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                                 echo '<td>' . $title['title'] . '</td>';
                                 echo '<td>' . $comentariu['content'] . '</td>';
                                 echo '<td>' . $comentariu['created_at'] . '</td>';
+                                echo '<td>' . detecteazaTon($comentariu['content']) . '</td>';
                                 echo '<td style="width: 225px;">
                                     <a class="btn btn-danger py-2 deleteComment" href="/admin/comentarii/index.php?deleteId=' . $comentariu['id'] . '"><i
                                     class="fa-solid fa-trash"></i> Sterge comentariu</a>
@@ -106,6 +147,19 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                 <?php } else { ?>
                     <h3 class="mt-3">Nu exista comentarii.</h3>
                 <?php } ?>
+            </div>
+        </div>
+
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card bg-dark text-white p-2">
+                    <div id="chart_ton_comentarii" style="height: 200px;"></div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="card bg-dark text-white p-2">
+                    <div id="heatmap_ton_comentarii" style="height: 350px;"></div>
+                </div>
             </div>
         </div>
     </div>

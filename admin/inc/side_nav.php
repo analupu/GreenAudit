@@ -3,7 +3,7 @@
     <hr>
     <ul class="nav nav-pills flex-column mb-auto">
         <li class="nav-item">
-            <a href="/admin" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/index.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa-solid fa-list"></i>
+            <a href="/admin" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/index.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa-regular fa-bookmark"></i>
                 Rezumat
             </a>
         </li>
@@ -18,13 +18,18 @@
             </a>
         </li>
         <li class="nav-item">
-            <a href="/admin/articole" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/articole/index.php' || $_SERVER['PHP_SELF'] == '/admin/articole/creare_editare.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa-solid fa-list"></i>
+            <a href="/admin/articole" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/articole/index.php' || $_SERVER['PHP_SELF'] == '/admin/articole/creare_editare.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa-solid fa-newspaper"></i>
                 Articole
             </a>
         </li>
         <li class="nav-item">
-            <a href="/admin/comentarii" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/comentarii/index.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa-solid fa-list"></i>
+            <a href="/admin/comentarii" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/comentarii/index.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa fa-comment" aria-hidden="true"></i>
                 Comentarii
+            </a>
+        </li>
+        <li class="nav-item">
+            <a href="/admin/imagini" class="nav-link text-white <?= $_SERVER['PHP_SELF'] == '/admin/imagini/index.php' || $_SERVER['PHP_SELF'] == '/admin/imagini/adaugare_imagine.php' ? 'active fw-bold' : '' ?>" aria-current="page"><i class="fa-solid fa-image"></i>
+                Imagini
             </a>
         </li>
     </ul>

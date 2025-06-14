@@ -153,22 +153,25 @@
                     <h1 class="h3 mb-3 fw-normal">Consum total lunar</h1>
                         <?php
                              echo "<h2>" . number_format($grandTotalConsum, 2) . " kW</h2>";
-                            $consumTotalLunarLei = 0;
-                            if ($grandTotalConsum <= 100) {
-                                $consumTotalLunarLei = $grandTotalConsum * 0.68;
-                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                                echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) .  ' Kw = 0.68 Lei/kW</h5>';
-                            } elseif ($grandTotalConsum <= 255) {
-                                $consumTotalLunarLei = $grandTotalConsum * 0.80;
-                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                                echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 0.80 Lei/kW</h5>';
-                            } else {
-                                $consumTotalLunarLei = ((255 * 0.8) + (($grandTotalConsum - 255) * 1.3));
-                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                                echo '<h5>0.00 - 255.00 Kw = 0.80 Lei/kW</h5>';
-                                echo '<h5>256.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
-                            }
-
+                        $consumTotalLunarLei = 0;
+                        if ($grandTotalConsum <= 100) {
+                            $consumTotalLunarLei = $grandTotalConsum * 0.68;
+                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                            echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) .  ' Kw = 0.68 Lei/kW</h5>';
+                        } elseif ($grandTotalConsum <= 255) {
+                            $consumTotalLunarLei = $grandTotalConsum * 0.80;
+                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                            echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 0.80 Lei/kW</h5>';
+                        } elseif ($grandTotalConsum <= 300) {
+                            $consumTotalLunarLei = ((255 * 0.8) + (($grandTotalConsum - 255) * 1.3));
+                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                            echo '<h5>0.00 - 255.00 Kw = 0.80 Lei/kW</h5>';
+                            echo '<h5>255.01 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
+                        } else {
+                            $consumTotalLunarLei = $grandTotalConsum * 1.30;
+                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                            echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' kWh = 1.30 Lei/kWh</h5>';
+                        }
                         ?>
                 </div>
                 <?php if (!empty($userSettings['venitLunar']) && !empty($userSettings['numarulMembrilor'])) { ?>
@@ -195,30 +198,55 @@
                                     }
                                 }
 
-                                $totalsArray[] = $grandTotalConsum;
+//                                $totalsArray[] = $grandTotalConsum;
+//
+//
+//                                $totalsArray = array_reverse($totalsArray);
+//                                $copacei = 0;
+//                                foreach ($totalsArray as $i => $total) {
+//                                    if ($i > 0) {
+//                                        $dif = $totalsArray[$i-1] - $total;
+//                                        if ($dif > 0) {
+//                                            $copacei += $dif / 10;
+//                                        } else {
+//                                            $copacei -= abs($dif) / 10;
+//                                        }
+//                                    }
+//                                }
+//
+//                                if ($copacei > 0) {
+//                                    echo '<h1>Copaci salvati</h1>';
+//                                    echo $copacei . ' copacei salvati prin reducerea consumului cu ' . $copacei * 10 . ' kW raportat la prima simulare.<br />(Este necesara salveaza simularii curente.)' ;
+//                                } else {
+//                                    echo '<h1>Copaci pierduti</h1>';
+//                                    echo abs($copacei) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei) * 10 . ' kW raportat la prima simulare';
+//                                }
 
+                                $firstSimulationQuery = mysqli_query($con, "SELECT `content` FROM `results_history` WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` ASC LIMIT 1");
 
-                                $totalsArray = array_reverse($totalsArray);
-                                $copacei = 0;
-                                foreach ($totalsArray as $i => $total) {
-                                    if ($i > 0) {
-                                        $dif = $totalsArray[$i-1] - $total;
-                                        if ($dif > 0) {
-                                            $copacei += $dif / 10;
-                                        } else {
-                                            $copacei -= abs($dif) / 10;
-                                        }
+                                if (mysqli_num_rows($firstSimulationQuery)) {
+                                    $firstSimulation = mysqli_fetch_assoc($firstSimulationQuery);
+                                    $firstTotal = 0;
+
+                                    foreach (json_decode($firstSimulation['content'], true) as $consumer) {
+                                        $firstTotal += ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
+                                    }
+
+                                    $difference = $firstTotal - $grandTotalConsum;
+                                    $copacei = $difference / 10;
+
+                                    if ($copacei > 0) {
+                                        echo '<h1>Copaci salvati fata de prima simulare</h1>';
+                                        echo number_format($copacei, 1) . ' copacei salvati prin reducerea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
+
+                                    } else {
+                                        echo '<h1>Copaci pierduti fata de prima simulare</h1>';
+                                        echo number_format(abs($copacei), 1) . ' copacei pierduti prin cresterea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
+                                    }
+                                    if (!$alreadyExists) {
+                                        echo '<br /><span class="text-warning">(Salvează această simulare pentru a fi inclusă în comparațiile viitoare.)</span>';
                                     }
                                 }
-
-                                if ($copacei > 0) {
-                                    echo '<h1>Copaci salvati</h1>';
-                                    echo $copacei . ' copacei salvati prin reducerea consumului cu ' . $copacei * 10 . ' kW raportat la prima simulare.<br />(Este necesara salveaza simularii curente.)' ;
-                                } else {
-                                    echo '<h1>Copaci pierduti</h1>';
-                                    echo abs($copacei) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei) * 10 . ' kW raportat la prima simulare';
-                                }
-
                             }
                         ?>
                         <h1 class="h3 mb-3 fw-normal">Status</h1>

@@ -192,11 +192,15 @@
                                                     $consumTotalLunarLei = $grandTotalConsum * 0.80;
                                                     echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
                                                     echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 0.80 Lei/kW</h5>';
-                                                } else {
+                                                } elseif ($grandTotalConsum <= 300) {
                                                     $consumTotalLunarLei = ((255 * 0.8) + (($grandTotalConsum - 255) * 1.3));
                                                     echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
                                                     echo '<h5>0.00 - 255.00 Kw = 0.80 Lei/kW</h5>';
-                                                    echo '<h5>256.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
+                                                    echo '<h5>255.01 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
+                                                } else {
+                                                    $consumTotalLunarLei = $grandTotalConsum * 1.30;
+                                                    echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                                                    echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' kWh = 1.30 Lei/kWh</h5>';
                                                 }
                                                 ?>
                                             </div>
@@ -218,30 +222,52 @@
                                                                 $nextGrandTotalConsum += $total;
                                                             }
 
-                                                            $totalsArray = [];
-                                                            foreach ($historyRows as $i2 => $historyRow2) {
-                                                                if ($i2 >= $ia) {
-                                                                    foreach (json_decode($historyRow2['content'], true) as $historyRow2Conten) {
-                                                                        $totalPower += (int)$historyRow2Conten['power'] / 1000;
-                                                                        $totalRunTime += (int)$historyRow2Conten['runTime'] * 30;
-                                                                        $totalCount += (int)$historyRow2Conten['count'];
+//                                                            $totalsArray = [];
+//                                                            foreach ($historyRows as $i2 => $historyRow2) {
+//                                                                if ($i2 >= $ia) {
+//                                                                    foreach (json_decode($historyRow2['content'], true) as $historyRow2Conten) {
+//                                                                        $totalPower += (int)$historyRow2Conten['power'] / 1000;
+//                                                                        $totalRunTime += (int)$historyRow2Conten['runTime'] * 30;
+//                                                                        $totalCount += (int)$historyRow2Conten['count'];
+//
+//                                                                        $total = ((int)$historyRow2Conten['power'] / 1000) * ((int)$historyRow2Conten['runTime'] * 30) * (int)$historyRow2Conten['count'];
+//                                                                        $totalsArray[] = $total;
+//                                                                    }
+//                                                                }
+//                                                            }
+//
+//                                                            $totalsArray = array_reverse($totalsArray);
+//                                                            $copacei2 = 0;
+//                                                            foreach ($totalsArray as $i => $total) {
+//                                                                if ($i > 0) {
+//                                                                    $dif2 = $totalsArray[$i-1] - $total;
+//                                                                    if ($dif2 > 0) {
+//                                                                        $copacei2 += $dif2 / 10;
+//                                                                    } else {
+//                                                                        $copacei2 -= abs($dif2) / 10;
+//                                                                    }
+//                                                                }
+//                                                            }
 
-                                                                        $total = ((int)$historyRow2Conten['power'] / 1000) * ((int)$historyRow2Conten['runTime'] * 30) * (int)$historyRow2Conten['count'];
-                                                                        $totalsArray[] = $total;
-                                                                    }
+                                                            $firstSimulationQuery = mysqli_query($con, "SELECT `content` FROM `results_history` WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` ASC LIMIT 1");
+
+                                                            if (mysqli_num_rows($firstSimulationQuery)) {
+                                                                $firstSimulation = mysqli_fetch_assoc($firstSimulationQuery);
+                                                                $firstTotal = 0;
+
+                                                                foreach (json_decode($firstSimulation['content'], true) as $consumer) {
+                                                                    $firstTotal += ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
                                                                 }
-                                                            }
 
-                                                            $totalsArray = array_reverse($totalsArray);
-                                                            $copacei2 = 0;
-                                                            foreach ($totalsArray as $i => $total) {
-                                                                if ($i > 0) {
-                                                                    $dif2 = $totalsArray[$i-1] - $total;
-                                                                    if ($dif2 > 0) {
-                                                                        $copacei2 += $dif2 / 10;
-                                                                    } else {
-                                                                        $copacei2 -= abs($dif2) / 10;
-                                                                    }
+                                                                $difference = $firstTotal - $grandTotalConsum;
+                                                                $copacei2 = $difference / 10;
+
+                                                                if ($copacei2 > 0) {
+                                                                    echo '<h1>Copaci salvati fata de prima simulare</h1>';
+                                                                    echo number_format($copacei2, 1) . ' copacei salvati prin reducerea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
+                                                                } else {
+                                                                    echo '<h1>Copaci pierduti fata de prima simulare</h1>';
+                                                                    echo number_format(abs($copacei2), 1) . ' copacei pierduti prin cresterea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
                                                                 }
                                                             }
 
@@ -260,13 +286,13 @@
                                                                 echo abs($copacei) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei) * 10 . ' kW.';
                                                             }
 
-                                                            if ($copacei2 > 0) {
-                                                                echo '<h1>Copaci salvati fata de prima simulare</h1>';
-                                                                echo $copacei2 . ' copacei salvati prin reducerea consumului cu ' . $copacei2 * 10 . ' kW.';
-                                                            } else {
-                                                                echo '<h1>Copaci pierduti fata de prima simulare</h1>';
-                                                                echo abs($copacei2) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei2) * 10 . ' kW.';
-                                                            }
+//                                                            if ($copacei2 > 0) {
+//                                                                echo '<h1>Copaci salvati fata de prima simulare</h1>';
+//                                                                echo $copacei2 . ' copacei salvati prin reducerea consumului cu ' . $copacei2 * 10 . ' kW.';
+//                                                            } else {
+//                                                                echo '<h1>Copaci pierduti fata de prima simulare</h1>';
+//                                                                echo abs($copacei2) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei2) * 10 . ' kW.';
+//                                                            }
                                                         }
                                                     ?>
                                                     <h1 class="h3 mb-3 fw-normal">Status</h1>
