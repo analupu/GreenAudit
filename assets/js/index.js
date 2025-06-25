@@ -28,7 +28,7 @@ $(function() {
             '                                  <input type="number" class="form-control" id="consumerRunTime' + i + '" placeholder="Ore funcionare consumator" name="consumers[' + i + '][runTime]" required/>\n' +
             '                                  <label for="consumerRunTime' + i + '">Ore funcionare consumator</label>\n' +
             '                              </div>\n' +
-            '                              <div class="form-floating mb-3">\n' +
+            '                              <div class="form-floating">\n' +
             '                                  <input type="number" class="form-control" id="consumerPower' + i + '" placeholder="Putere (W)" name="consumers[' + i + '][power]" required/>\n' +
             '                                  <label for="consumerPower' + i + '">Putere (W)</label>\n' +
             '                              </div>\n' +
@@ -46,13 +46,13 @@ $(function() {
         e.preventDefault();
         var deleteId = $(this).attr('data-delete-id');
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Esti sigur?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Da",
+            cancelButtonText: "Nu"
         }).then((result) => {
             if (result.isConfirmed) {
                 $('#' + deleteId).remove();

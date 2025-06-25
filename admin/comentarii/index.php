@@ -21,30 +21,69 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 <html lang="ro" data-bs-theme="auto">
 <head>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/head.php'; ?>
+    <link href="/admin/assets/css/cards.css" rel="stylesheet">
 </head>
 <body>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/nav.php'; ?>
-<main class="d-flex">
+<main class="d-flex my-5">
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/side_nav.php'; ?>
     <div class="container-fluid">
+        <div class="card">
+            <div class="card-body">
         <div class="row">
             <div class="col-md-12">
                 <h2>Comentarii</h2>
-                <div class="card text-bg-primary mb-3 mt-3" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title">Comentarii</h5>
-                        <p class="card-text"><?php echo mysqli_num_rows($comentarii); ?></p>
+                <hr />
+                <div class="row">
+                    <div class="col-md-3">
+                        <section class="card card-featured-comentarii card-featured-primary mb-3">
+                            <div class="card-body">
+                                <div class="widget-summary">
+                                    <div class="widget-summary-col widget-summary-col-icon">
+                                        <div class="summary-icon bg-primary bg-primary-comentarii">
+                                            <i class="fas fa-comments"></i>
+                                        </div>
+                                    </div>
+                                    <div class="widget-summary-col">
+                                        <div class="summary">
+                                            <h4 class="title">Comentarii</h4>
+                                            <div class="info">
+                                                <strong class="amount"><?php echo mysqli_num_rows($comentarii); ?></strong>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
                     </div>
                 </div>
-                <form method="get" action="/admin/comentarii/index.php">
-                    <div class="row align-items-center">
-                        <div class="col-auto">
-                            <label for="article_filter">Articol</label>
+                <div class="row mb-3">
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="chart_ton_comentarii" style="height: 200px;"></div>
+                            </div>
+
                         </div>
-                        <div class="col-auto">
-                            <select id="article_filter" class="form-select" name="article_filter">
-                                <?php
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div id="heatmap_ton_comentarii" style="height: 350px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="d-flex justify-content-between">
+                    <form method="get" action="/admin/comentarii/index.php">
+                        <div class="row align-items-center">
+                            <div class="col-auto">
+                                <label for="article_filter">Articol</label>
+                            </div>
+                            <div class="col-auto">
+                                <select id="article_filter" class="form-select" name="article_filter">
+                                    <?php
                                     $articles = mysqli_query($con, "SELECT * FROM `articles` ORDER BY `created_at` DESC");
 
                                     while ($article = mysqli_fetch_assoc($articles)) {
@@ -56,24 +95,24 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
 
                                         echo '<option value="' . $article['id'] . '" ' . $selected . '>' . $article['title'] . '</option>';
                                     }
-                                ?>
-                            </select>
-                        </div>
-                        <div class="col-auto">
-                            <button type="submit" class="btn btn-primary">Filtreaza</button>
-                        </div>
-                        <?php if (isset($_GET['article_filter'])) { ?>
-                            <div class="col-auto">
-                                <a href="/admin/comentarii/index.php" class="btn btn-danger">Reseteaza</a>
+                                    ?>
+                                </select>
                             </div>
-                        <?php } ?>
-                    </div>
-                </form>
-
-                <div class="d-flex justify-content-end mb-3">
-                    <div class="input-group input-group-sm" style="width: 250px;">
-                    <span class="input-group-text bg-secondary border-secondary text-white"><i class="fas fa-search"></i></span>
-                        <input type="text" id="searchInput" class="form-control bg-dark text-white border-secondary" placeholder="Caută...">
+                            <div class="col-auto">
+                                <button type="submit" class="btn btn-primary">Filtreaza</button>
+                            </div>
+                            <?php if (isset($_GET['article_filter'])) { ?>
+                                <div class="col-auto">
+                                    <a href="/admin/comentarii/index.php" class="btn btn-danger">Reseteaza</a>
+                                </div>
+                            <?php } ?>
+                        </div>
+                    </form>
+                    <div class="mb-3">
+                        <div class="input-group input-group-sm" style="width: 250px;">
+                            <span class="input-group-text bg-secondary border-secondary text-white"><i class="fas fa-search"></i></span>
+                            <input type="text" id="searchInput" class="form-control bg-light text-dark border-secondary" placeholder="Caută...">
+                        </div>
                     </div>
                 </div>
 
@@ -87,7 +126,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                             <th>Continut</th>
                             <th>Data</th>
                             <th>Ton</th>
-                            <th>Actiune</th>
+                            <th style="width: 3%;">Actiune</th>
                         </tr>
                         </thead>
                         <tbody>
@@ -136,7 +175,7 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                                 echo '<td>' . detecteazaTon($comentariu['content']) . '</td>';
                                 echo '<td style="width: 225px;">
                                     <a class="btn btn-danger py-2 deleteComment" href="/admin/comentarii/index.php?deleteId=' . $comentariu['id'] . '"><i
-                                    class="fa-solid fa-trash"></i> Sterge comentariu</a>
+                                    class="fa-solid fa-trash"></i></a>
                             </td>';
                                 echo '</tr>';
                             }
@@ -149,17 +188,6 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                 <?php } ?>
             </div>
         </div>
-
-        <div class="row mt-4">
-            <div class="col-md-6">
-                <div class="card bg-dark text-white p-2">
-                    <div id="chart_ton_comentarii" style="height: 200px;"></div>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="card bg-dark text-white p-2">
-                    <div id="heatmap_ton_comentarii" style="height: 350px;"></div>
-                </div>
             </div>
         </div>
     </div>

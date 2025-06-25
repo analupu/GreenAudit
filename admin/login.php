@@ -28,7 +28,6 @@
         <link href="/assets/css/sign-in.css" rel="stylesheet">
     </head>
     <body>
-        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/nav.php'; ?>
         <main class="form-signin w-100 m-auto">
             <form action="" method="post">

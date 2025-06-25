@@ -1,13 +1,8 @@
 var options_history = {
     chart: {
         type: 'line',
-        background: '#2b3035'
     },
     series: [],
-    theme: {
-        mode: 'dark',
-        palette: 'palette1'
-    },
     noData: {
         text: 'Loading...'
     },
@@ -45,9 +40,7 @@ var options_history = {
         offsetY: 0,
         floating: false,
         style: {
-            fontSize:  '24px',
-            fontWeight:  'bold',
-            color:  '#ffffff'
+            fontSize:  '20px',
         },
     }
 }
@@ -77,13 +70,8 @@ $.getJSON(url, function(response) {
 var options_settings_history = {
     chart: {
         type: 'line',
-        background: '#2b3035'
     },
     series: [],
-    theme: {
-        mode: 'dark',
-        palette: 'palette1'
-    },
     noData: {
         text: 'Loading...'
     },
@@ -118,9 +106,7 @@ var options_settings_history = {
         offsetY: 0,
         floating: false,
         style: {
-            fontSize:  '24px',
-            fontWeight:  'bold',
-            color:  '#ffffff'
+            fontSize:  '20px',
         },
     },
     grid: {

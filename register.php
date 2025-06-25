@@ -42,9 +42,8 @@
         <link href="/assets/css/sign-in.css" rel="stylesheet">
     </head>
     <body>
-        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
-        <main class="form-signin w-100 m-auto">
+        <main class="form-signin w-100 m-auto mt-5">
             <form action="" method="post">
                 <h1 class="h3 mb-3 fw-normal">Inregistrare</h1>
                 <div class="form-floating mb-3">
@@ -84,7 +83,7 @@
                     <input class="form-control" type="text" id="tipLocuinta" name="tipLocuinta" placeholder="Tipul locuintei" />
                     <label for="tipLocuinta">Tip locuinta</label>
                 </div>
-                <button class="btn btn-primary w-100 py-2" type="submit" name="submit">Register</button>
+                <button class="btn btn-success w-100 py-2" type="submit" name="submit"><i class="fa-solid fa-user-plus"></i> Inregistrare</button>
                 <?php
                     if (isset($_POST['submit'])) {
                         if ($error_email) {

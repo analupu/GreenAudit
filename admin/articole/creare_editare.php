@@ -77,67 +77,71 @@ if (isset($_POST['submit'])) {
     <link href="/admin/assets/css/summernote-bs5.min.css" rel="stylesheet">
 </head>
 <body>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/nav.php'; ?>
-<main class="d-flex">
+<main class="d-flex mt-5">
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/side_nav.php'; ?>
-    <div class="container-fluid">
+    <div class="container-fluid mb-5">
         <div class="row">
             <div class="col-6 offset-3">
-                <form action="" method="post" enctype="multipart/form-data">
-                    <?php if (empty($articol)) { echo ' <h1>Adauga articol</h1>'; }
-                    else { echo '<h1>Editeaza articol</h1>'; }?>
-                    <div class="form-floating mb-3">
-                        <select class="form-select" id="categorie" name="category" required>
-                            <?php
-                                $categorii = mysqli_query($con, "SELECT * FROM `articles_categories`");
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <?php if (empty($articol)) { echo ' <h1>Adauga articol</h1>'; }
+                            else { echo '<h1>Editeaza articol</h1>'; }?>
+                            <hr />
+                            <div class="form-floating mb-3">
+                                <select class="form-select" id="categorie" name="category" required>
+                                    <?php
+                                    $categorii = mysqli_query($con, "SELECT * FROM `articles_categories`");
 
-                                while ($categorie = mysqli_fetch_assoc($categorii)) {
-                                    echo '<option value="' . $categorie['id'] . '"';
-                                    if (!empty($articol) && $articol['category_id'] == $categorie['id']) {
-                                        echo 'selected';
+                                    while ($categorie = mysqli_fetch_assoc($categorii)) {
+                                        echo '<option value="' . $categorie['id'] . '"';
+                                        if (!empty($articol) && $articol['category_id'] == $categorie['id']) {
+                                            echo 'selected';
+                                        }
+                                        echo '>' . $categorie['name'] . '</option>';
                                     }
-                                    echo '>' . $categorie['name'] . '</option>';
-                                }
-                            ?>
-                        </select>
-                        <label for="categorie">Categorie</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingTitle" placeholder="Titlu" name="title"
-                               required value="<?php if (!empty($articol)) { echo $articol['title']; } ?>" />
-                        <label for="floatingTitle">Titlu</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingSubtitle" placeholder="Subtitlu" name="subtitle"
-                               required value="<?php if (!empty($articol)) { echo $articol['subtitle']; } ?>" />
-                        <label for="floatingSubtitle">Subtitlu</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <textarea id="content-articol" class="form-control" name="content" required><?php if (!empty($articol)) { echo $articol['content']; } ?></textarea>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input type="file" class="form-control" id="image" placeholder="Image" name="image"
-                               <?php if (empty($articol)) { echo 'required'; }  ?> />
-                        <label for="image">Imagine</label>
-                    </div>
-                    <?php
-                        if (isset($_POST['submit']) && !empty($upload_errors)) {
-                            echo '<div class="alert alert-danger my-4" role="alert">
+                                    ?>
+                                </select>
+                                <label for="categorie">Categorie</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingTitle" placeholder="Titlu" name="title"
+                                       required value="<?php if (!empty($articol)) { echo $articol['title']; } ?>" />
+                                <label for="floatingTitle">Titlu</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingSubtitle" placeholder="Subtitlu" name="subtitle"
+                                       required value="<?php if (!empty($articol)) { echo $articol['subtitle']; } ?>" />
+                                <label for="floatingSubtitle">Subtitlu</label>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <textarea id="content-articol" class="form-control" name="content" required><?php if (!empty($articol)) { echo $articol['content']; } ?></textarea>
+                            </div>
+                            <div class="form-floating mb-3">
+                                <input type="file" class="form-control" id="image" placeholder="Image" name="image"
+                                    <?php if (empty($articol)) { echo 'required'; }  ?> />
+                                <label for="image">Imagine</label>
+                            </div>
+                            <?php
+                            if (isset($_POST['submit']) && !empty($upload_errors)) {
+                                echo '<div class="alert alert-danger my-4" role="alert">
                                 ' . $upload_errors . '</div>';
-                        }
+                            }
 
-                        if (!empty($articol) && isset($articol['image'])) {
-                            echo 'Current image: <br />';
-                            echo '<img src="/uploads/' . $articol['image'] . '" class="img-fluid mb-3" />';
-                        }
-                    ?>
-                    <button class="btn btn-primary w-100 py-2" type="submit" name="submit">
-                        <?php if (empty($articol)) { echo '<i
+                            if (!empty($articol) && isset($articol['image'])) {
+                                echo 'Current image: <br />';
+                                echo '<img src="/uploads/' . $articol['image'] . '" class="img-fluid mb-3" />';
+                            }
+                            ?>
+                            <button class="btn btn-primary w-100 py-2" type="submit" name="submit">
+                                <?php if (empty($articol)) { echo '<i
                             class="fa-solid fa-add"></i> Adauga'; }
-                        else { echo '<i
+                                else { echo '<i
                             class="fa-solid fa-pen"></i> Editeaza'; }?></button>
-                </form>
+                        </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

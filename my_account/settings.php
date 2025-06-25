@@ -33,33 +33,36 @@
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
 </head>
 <body>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
-<main class="d-flex">
-    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 280px;">
-        <h2 class="fs-4">Contul meu</h2>
-        <hr>
-        <ul class="nav nav-pills flex-column mb-auto">
-            <li class="nav-item">
-                <a href="/my_account/index.php" class="nav-link text-white" aria-current="page"><i class="fa-solid fa-list"></i>
-                    Rezumat
-                </a>
-            </li>
-            <li>
-                <a href="/my_account/history.php" class="nav-link text-white"><i class="fa-solid fa-clock-rotate-left"></i>
-                    Istoric
-                </a>
-            </li><li>
-                <a href="/my_account/settings.php" class="nav-link text-white active"><i class="fa-solid fa-gear"></i>
-                    Setari
-                </a>
-            </li>
-        </ul>
+<main class="d-flex my-5">
+    <div class="card" style="width: 280px; height: 90vh; margin-left: 0.75rem;">
+        <div class="card-body">
+            <div style="width: 100%;">
+                <h2 class="fs-4">Contul meu</h2>
+                <hr>
+                <ul class="nav nav-pills flex-column mb-auto">
+                    <li class="nav-item">
+                        <a href="/my_account/index.php" class="nav-link text-dark" aria-current="page"><i class="fa-solid fa-list"></i>
+                            Rezumat
+                        </a>
+                    </li>
+                    <li>
+                        <a href="/my_account/history.php" class="nav-link text-dark"><i class="fa-solid fa-clock-rotate-left"></i>
+                            Istoric
+                        </a>
+                    </li><li>
+                        <a href="/my_account/settings.php" class="nav-link active"><i class="fa-solid fa-gear"></i>
+                            Setari
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-    <div class="container">
+    <div class="container-fluid">
         <form action="" method="post">
-            <div class="col-6 offset-3">
-                <h1 class="h3 mb-3 fw-normal text-center">Introduceti informatii despre consumul locuintei</h1>
+            <div class="col-4 offset-4">
+                <h1 class="h3 mb-3 fw-normal text-center">Introduceți informații despre consumul locuinței</h1>
                 <div class="card mb-5">
                     <div class="card-body">
                         <div class="form-floating mb-3">
@@ -68,13 +71,13 @@
                         </div>
                         <div class="form-floating mb-3">
                             <input class="form-control" type="number" id="numarulMembrilor" name="numarulMembrilor" placeholder="Numarul membrilor din gospodarie" required value="<?php if ($currentSettings) { echo $currentSettings['numarulMembrilor']; } ?>">
-                            <label for="numarulMembrilor">Numarul membrilor din gospodarie</label>
+                            <label for="numarulMembrilor">Numărul membrilor din gospodărie</label>
                         </div>
                         <div class="form-floating mb-3">
                             <input class="form-control" type="text" id="tipLocuinta" name="tipLocuinta" placeholder="Tipul locuintei" value="<?php if ($currentSettings) { echo $currentSettings['tipLocuinta']; } ?>">
-                            <label for="tipLocuinta">Tip locuinta</label>
+                            <label for="tipLocuinta">Tip locuință</label>
                         </div>
-                        <button class="btn btn-primary w-100 py-2" type="submit" name="btnSalveaza">Salveaza</button>
+                        <button class="btn btn-primary w-100 py-2" type="submit" name="btnSalveaza"><i class="fa-solid fa-save"></i> Salvează</button>
                     </div>
                 </div>
             </div>

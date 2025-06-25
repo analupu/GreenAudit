@@ -48,13 +48,13 @@
     pointer-events: auto;
 }
 
-.card {
+.galerie .card {
     display: flex;
     flex-direction: column;
     height: 100%;
 }
 
-.card-footer {
+.galerie .card-footer {
     margin-top: auto;
 }
 

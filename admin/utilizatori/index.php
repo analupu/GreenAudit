@@ -40,67 +40,102 @@ if (isset($_GET['blockId'])) {
 <html lang="ro" data-bs-theme="auto">
 <head>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/head.php'; ?>
+    <link href="/admin/assets/css/cards.css" rel="stylesheet">
 </head>
 <body>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/nav.php'; ?>
-<main class="d-flex">
+<main class="d-flex my-5">
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/side_nav.php'; ?>
     <div class="container-fluid">
-        <div class="row">
-            <div class="col-md-12">
-                <h2>Utilizatori</h2>
+        <div class="card">
+            <div class="card-body">
                 <div class="row">
-                    <div class="card text-bg-primary me-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Utilizatori</h5>
-                            <p class="card-text"><?php echo mysqli_num_rows($utlizatori); ?></p>
+                    <div class="col-md-12">
+                        <h2>Utilizatori</h2>
+                        <hr />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <section class="card card-featured-user card-featured-primary mb-3">
+                                    <div class="card-body">
+                                        <div class="widget-summary">
+                                            <div class="widget-summary-col widget-summary-col-icon">
+                                                <div class="summary-icon bg-primary bg-primary-user">
+                                                    <i class="fas fa-user"></i>
+                                                </div>
+                                            </div>
+                                            <div class="widget-summary-col">
+                                                <div class="summary">
+                                                    <h4 class="title">Utilizatori</h4>
+                                                    <div class="info">
+                                                        <strong class="amount"><?php echo mysqli_num_rows($utlizatori); ?></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                            <div class="col-md-3">
+                                <section class="card card-blocked-user card-featured-primary mb-3">
+                                    <div class="card-body">
+                                        <div class="widget-summary">
+                                            <div class="widget-summary-col widget-summary-col-icon">
+                                                <div class="summary-icon bg-primary bg-blocked-user">
+                                                    <i class="fas fa-lock"></i>
+                                                </div>
+                                            </div>
+                                            <div class="widget-summary-col">
+                                                <div class="summary">
+                                                    <h4 class="title">Utilizatori blocati</h4>
+                                                    <div class="info">
+                                                        <strong class="amount"><?php echo mysqli_num_rows($utlizatori_blocati); ?></strong>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
                         </div>
-                    </div>
-                    <div class="card text-bg-warning me-3" style="width: 18rem;">
-                        <div class="card-body">
-                            <h5 class="card-title">Utilizatori blocati</h5>
-                            <p class="card-text"><?php echo mysqli_num_rows($utlizatori_blocati); ?></p>
-                        </div>
-                    </div>
-                </div>
-                <a class="btn btn-primary float-end" href="/admin/utilizatori/creare_editare.php"><i
-                            class="fa-solid fa-add"></i> Adauga</a>
-                <table class="table">
-                    <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Prenume - Nume</th>
-                        <th>Email</th>
-                        <th>Proprietati</th>
-                        <th>Actiune</th>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <?php
-                    while ($utilizator = mysqli_fetch_assoc($utlizatori)) {
-                        echo '<tr class="align-middle">';
-                        echo '<td>' . $utilizator['id'] . '</td>';
-                        echo '<td>' . $utilizator['firstName'] . ' ' . $utilizator['lastName'] . '</td>';
-                        echo '<td>' . $utilizator['email'] . '</td>';
-                        echo '<td>
+                        <a class="btn btn-primary mb-3" href="/admin/utilizatori/creare_editare.php"><i
+                                    class="fa-solid fa-add"></i> Adauga</a>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Prenume - Nume</th>
+                                <th>Email</th>
+                                <th>Proprietati</th>
+                                <th style="width: 13%;">Actiune</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <?php
+                            while ($utilizator = mysqli_fetch_assoc($utlizatori)) {
+                                echo '<tr class="align-middle">';
+                                echo '<td>' . $utilizator['id'] . '</td>';
+                                echo '<td>' . $utilizator['firstName'] . ' ' . $utilizator['lastName'] . '</td>';
+                                echo '<td>' . $utilizator['email'] . '</td>';
+                                echo '<td>
                             Venit lunar: ' . json_decode($utilizator['settings'])->venitLunar . '<br />
                             Numarul membrilor: ' . json_decode($utilizator['settings'])->numarulMembrilor . '<br />
                             Tip locuinta: ' . json_decode($utilizator['settings'])->tipLocuinta . '
                         </td>';
-                        echo '<td style="width: 380px;">
+                                echo '<td style="width: 380px;">
                                 <a class="btn btn-primary me-3" href="/admin/utilizatori/creare_editare.php?editId=' . $utilizator['id'] . '"><i
-                        class="fa-solid fa-pen"></i> Editare</a>
+                        class="fa-solid fa-pen"></i></a>
                         <a class="btn '; if ( $utilizator['is_blocked'] == '1' ) { echo 'btn-success';} else { echo 'btn-warning'; } echo ' me-3 blockUser" href="/admin/utilizatori/index.php?blockId=' . $utilizator['id'] . '"><i
-                        class="fa-solid fa-lock"></i> ';  if ( $utilizator['is_blocked'] == '1' ) {echo 'Deblocheaza';} else { echo 'Blocheaza'; } echo '</a>
+                        class="fa-solid fa-'; if ( $utilizator['is_blocked'] == '1' ) { echo 'lock-open';} else { echo 'lock'; } echo '"></i></a>
                                 <a class="btn btn-danger py-2 deleteUser" href="/admin/utilizatori/index.php?deleteId=' . $utilizator['id'] . '"><i
-                        class="fa-solid fa-trash"></i> Sterge</a>
+                        class="fa-solid fa-trash"></i></a>
                         </td>';
-                        echo '</tr>';
-                    }
-                    ?>
-                    </tbody>
-                </table>
+                                echo '</tr>';
+                            }
+                            ?>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

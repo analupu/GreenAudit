@@ -31,7 +31,6 @@
 <!doctype html>
 <html lang="en" data-bs-theme="auto">
 <head>
-    <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
     <link href="/assets/css/articole.css" rel="stylesheet">
 </head>
@@ -39,10 +38,10 @@
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
 <main class="d-flex">
     <div class="container">
-        <div class="position-relative mb-3 overflow-hidden text-center bg-body-tertiary align-content-center article-image" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/uploads/<?php echo $article['image'] ?>');">
+        <div class="position-relative mt-5 mb-3 rounded-3 overflow-hidden text-center bg-body-tertiary align-content-center article-image" style="background-image: linear-gradient( rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5) ), url('/uploads/<?php echo $article['image'] ?>');">
             <div class="col-md-6 p-lg-5 mx-auto my-5">
-                <h1 class="display-3 fw-bold"><?php echo $article['title'] ?></h1>
-                <h3 class="fw-normal text-muted mb-3"><?php echo $article['subtitle'] ?></h3>
+                <h1 class="display-3 fw-bold text-white"><?php echo $article['title'] ?></h1>
+                <h3 class="fw-normal mb-3 text-white"><?php echo $article['subtitle'] ?></h3>
             </div>
             <div class="product-device shadow-sm d-none d-md-block"></div>
             <div class="product-device product-device-2 shadow-sm d-none d-md-block"></div>
@@ -58,7 +57,7 @@
                             if ($postedBy['is_admin'] == 1) {
                                 echo '<span class="badge bg-danger">Admin</span> la ' . $article['created_at'];
                             }
-                            echo '<span class="float-end">Numar de vizualizari: ' . $article['views'] . '</span> ';
+                            echo '<span class="float-end"><i class="fa-solid fa-eye"></i> ' . $article['views'] . '</span> ';
                         ?>
                     </div>
                     <div class="card-body">
@@ -131,7 +130,7 @@
                             if (isset($_SESSION['audit_logged_in'])) {?>
                             <form method="post" action="/articole/articol.php?id=<?php echo $article['id'] ?>">
                                 <textarea class="form-control" name="comment" id="comment" rows="3" required></textarea>
-                                <button class="btn btn-primary mt-3 float-end" type="submit" name="adaugaComentariu">Adauga comentariu</button>
+                                <button class="btn btn-primary mt-3 float-end" type="submit" name="adaugaComentariu"><i class="fa-solid fa-comment"></i> Comenteaza</button>
                             </form>
                         <?php } else {?>
                             <p class="mt-3">Pentru a adauga un comentariu trebuie sa te loghezi sau sa te inregistrezi.</p>

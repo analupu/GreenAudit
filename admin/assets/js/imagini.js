@@ -3,13 +3,13 @@ $(function() {
         e.preventDefault();
         var url = e.currentTarget.getAttribute('href');
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Esti sigur?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Da",
+            cancelButtonText: "Nu"
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = url;
@@ -25,15 +25,12 @@ var options_imagini = {
         type: 'bar',
         stacked: true,
         height: 400,
-        background: '#2b3035',
         toolbar: { show: true }
     },
-    theme: { mode: 'dark' },
     title: {
         text: 'Reacții la imagini: Like-uri vs Dislike-uri',
         align: 'center',
         style: {
-            color: '#fff',
             fontSize: '20px'
         }
     },

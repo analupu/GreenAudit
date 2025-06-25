@@ -2,14 +2,9 @@ var options_history = {
     chart: {
         type: 'polarArea',
         height: 500,
-        background: '#2b3035',
         toolbar: {
             show: true
         },
-    },
-    theme: {
-        mode: 'dark',
-        palette: 'palette1'
     },
     noData: {
         text: 'Loading...'
@@ -22,9 +17,7 @@ var options_history = {
         offsetY: 0,
         floating: false,
         style: {
-            fontSize:  '24px',
-            fontWeight:  'bold',
-            color:  '#ffffff'
+            fontSize:  '20px',
         },
     },
     yaxis: {
@@ -55,12 +48,7 @@ var options_categorii = {
     chart: {
         type: 'donut',
         height: 500,
-        background: '#2b3035',
         toolbar: { show: true }
-    },
-    theme: {
-        mode: 'dark',
-        palette: 'palette2'
     },
     noData: {
         text: 'Se încarcă...'
@@ -70,8 +58,6 @@ var options_categorii = {
         align: 'center',
         style: {
             fontSize: '20px',
-            fontWeight: 'bold',
-            color: '#ffffff'
         }
     },
     legend: {
@@ -93,15 +79,12 @@ var options_simulari = {
     chart: {
         type: 'bar',
         height: 500,
-        background: '#2b3035',
         toolbar: { show: true }
     },
-    theme: { mode: 'dark' },
     title: {
         text: 'Simulări pe săptămâni',
         align: 'center',
         style: {
-            color: '#fff',
             fontSize: '20px'
         }
     },

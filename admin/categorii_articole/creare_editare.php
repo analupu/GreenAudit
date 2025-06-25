@@ -28,16 +28,18 @@ if (isset($_POST['submit'])) {
     <link href="/assets/css/sign-in.css" rel="stylesheet">
 </head>
 <body>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/nav.php'; ?>
-<main class="d-flex">
+<main class="d-flex mt-5">
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/side_nav.php'; ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-4 offset-4">
+                <div class="card">
+                    <div class="card-body">
                 <form action="" method="post">
                     <?php if (empty($categorie_articol)) { echo ' <h1>Adauga categorie articol</h1>'; }
                     else { echo '<h1>Editeaza categorie articol</h1>'; }?>
+                    <hr />
                     <div class="form-floating mb-3">
                         <input type="text" class="form-control" id="floatingName" placeholder="Nume" name="name"
                                required value="<?php if (!empty($categorie_articol)) { echo $categorie_articol['name']; } ?>" />
@@ -49,6 +51,8 @@ if (isset($_POST['submit'])) {
                         else { echo '<i
                             class="fa-solid fa-pen"></i> Editeaza'; }?></button>
                 </form>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

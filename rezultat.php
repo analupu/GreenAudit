@@ -28,175 +28,192 @@
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
     </head>
     <body>
-        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
-        <main class="container">
-            <div class="bg-body-tertiary p-5 rounded row">
-                <div class="col-10 offset-1">
-                    <h1 class="h3 mb-3 fw-normal text-center">Consum zilnic (tarife e-on)</h1>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">Numar</th>
-                                <th scope="col">Marca</th>
-                                <th scope="col">Clasa energetica</th>
-                                <th scope="col">Tip</th>
-                                <th scope="col">Consum (kW)</th>
-                                <th scope="col">Ore</th>
-                                <th scope="col">Cantitate</th>
-                                <th scope="col">Total aparat (kW)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+        <main class="container-fluid w-75 my-5">
+            <div class="card">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h1 class="h3 mb-3 fw-normal text-center">Consum zilnic (tarife e-on)</h1>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Numar</th>
+                                            <th scope="col">Marca</th>
+                                            <th scope="col">Clasa energetica</th>
+                                            <th scope="col">Tip</th>
+                                            <th scope="col">Consum (kW)</th>
+                                            <th scope="col">Ore</th>
+                                            <th scope="col">Cantitate</th>
+                                            <th scope="col">Total aparat (kW)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $i = 1;
+
+                                        $totalPower = 0;
+                                        $totalRunTime = 0;
+                                        $totalCount = 0;
+
+                                        $grandTotalConsum = 0;
+
+                                        foreach ($_GET['consumers'] as $consumer) {
+                                            $totalPower += (int)$consumer['power'] / 1000;
+                                            $totalRunTime += (int)$consumer['runTime'];
+                                            $totalCount += (int)$consumer['count'];
+
+                                            $totalZilnic = ((int)$consumer['power'] / 1000) * (int)$consumer['runTime'] * (int)$consumer['count'];
+                                            $grandTotalConsum += $totalZilnic;
+
+                                            echo '<tr>';
+                                            echo '<td>' . $i . '</td>';
+                                            echo '<td>' . $consumer['brand'] . '</td>';
+                                            echo '<td>' . $consumer['energyClass'] . '</td>';
+                                            echo '<td>' . $consumer['name'] . '</td>';
+                                            echo '<td>' . number_format((int)$consumer['power'] / 1000, 2) . '</td>';
+                                            echo '<td>' . number_format((int)$consumer['runTime'], 2) . '</td>';
+                                            echo '<td>' . number_format((int)$consumer['count'], 2) . '</td>';
+                                            echo '<td>' . number_format($totalZilnic, 2) . ' kW</td>';
+                                            echo '</tr>';
+                                            $i++;
+                                        }
+                                        ?>
+                                        <tr>
+                                            <td colspan="4">Total</td>
+                                            <td><?php echo number_format($totalPower, 2); ?></td>
+                                            <td><?php echo number_format($totalRunTime, 2); ?></td>
+                                            <td><?php echo number_format($totalCount, 2); ?></td>
+                                            <td><?php echo number_format($grandTotalConsum, 2) . " kW"; ?>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-6">
+                            <div class="card">
+                                <div class="card-body">
+                                    <h1 class="h3 mb-3 fw-normal text-center">Consum lunar (tarife e-on)</h1>
+                                    <table class="table">
+                                        <thead>
+                                        <tr>
+                                            <th scope="col">Numar</th>
+                                            <th scope="col">Marca</th>
+                                            <th scope="col">Clasa energetica</th>
+                                            <th scope="col">Tip</th>
+                                            <th scope="col">Consum (kW)</th>
+                                            <th scope="col">Ore</th>
+                                            <th scope="col">Cantitate</th>
+                                            <th scope="col">Total aparat (kW)</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <?php
+                                        $i = 1;
+
+                                        $totalPower = 0;
+                                        $totalRunTime = 0;
+                                        $totalCount = 0;
+
+                                        $grandTotalConsum = 0;
+
+                                        $costTotal = 0;
+
+                                        foreach ($_GET['consumers'] as $consumer) {
+                                            $totalPower += (int)$consumer['power'] / 1000;
+                                            $totalRunTime += (int)$consumer['runTime'] * 30;
+                                            $totalCount += (int)$consumer['count'];
+
+                                            $total = ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
+                                            $grandTotalConsum += $total;
+
+                                            echo '<tr>';
+                                            echo '<td>' . $i . '</td>';
+                                            echo '<td>' . $consumer['brand'] . '</td>';
+                                            echo '<td>' . $consumer['energyClass'] . '</td>';
+                                            echo '<td>' . $consumer['name'] . '</td>';
+                                            echo '<td>' . number_format(((int)$consumer['power'] / 1000), 2) . '</td>';
+                                            echo '<td>' . number_format((int)$consumer['runTime'] * 30, 2) . '</td>';
+                                            echo '<td>' . number_format((int)$consumer['count'], 2) . '</td>';
+                                            echo '<td>' . number_format($total, 2) . ' kW</td>';
+                                            echo '</tr>';
+                                            $i++;
+                                        }
+                                        ?>
+                                        <tr>
+                                            <td colspan="4">Total</td>
+                                            <td><?php echo number_format($totalPower, 2); ?></td>
+                                            <td><?php echo number_format($totalRunTime, 2); ?></td>
+                                            <td><?php echo number_format($totalCount, 2); ?></td>
+                                            <td><?php echo number_format($grandTotalConsum, 2) . " kW"; ?>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                <div class="col-6 mt-3 text-center">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <h1 class="h3 mb-3 fw-normal">Consum total lunar</h1>
                             <?php
-                                $i = 1;
-
-                                $totalPower = 0;
-                                $totalRunTime = 0;
-                                $totalCount = 0;
-
-                                $grandTotalConsum = 0;
-
-                                foreach ($_GET['consumers'] as $consumer) {
-                                    $totalPower += (int)$consumer['power'] / 1000;
-                                    $totalRunTime += (int)$consumer['runTime'];
-                                    $totalCount += (int)$consumer['count'];
-
-                                    $totalZilnic = ((int)$consumer['power'] / 1000) * (int)$consumer['runTime'] * (int)$consumer['count'];
-                                    $grandTotalConsum += $totalZilnic;
-
-                                    echo '<tr>';
-                                    echo '<td>' . $i . '</td>';
-                                    echo '<td>' . $consumer['brand'] . '</td>';
-                                    echo '<td>' . $consumer['energyClass'] . '</td>';
-                                    echo '<td>' . $consumer['name'] . '</td>';
-                                    echo '<td>' . number_format((int)$consumer['power'] / 1000, 2) . '</td>';
-                                    echo '<td>' . number_format((int)$consumer['runTime'], 2) . '</td>';
-                                    echo '<td>' . number_format((int)$consumer['count'], 2) . '</td>';
-                                    echo '<td>' . number_format($totalZilnic, 2) . ' kW</td>';
-                                    echo '</tr>';
-                                    $i++;
-                                }
-                            ?>
-                            <tr>
-                                <td colspan="4">Total</td>
-                                <td><?php echo number_format($totalPower, 2); ?></td>
-                                <td><?php echo number_format($totalRunTime, 2); ?></td>
-                                <td><?php echo number_format($totalCount, 2); ?></td>
-                                <td><?php echo number_format($grandTotalConsum, 2) . " kW"; ?>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="col-10 offset-1 mt-5">
-                    <h1 class="h3 mb-3 fw-normal text-center">Consum lunar (tarife e-on)</h1>
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <th scope="col">Numar</th>
-                            <th scope="col">Marca</th>
-                            <th scope="col">Clasa energetica</th>
-                            <th scope="col">Tip</th>
-                            <th scope="col">Consum (kW)</th>
-                            <th scope="col">Ore</th>
-                            <th scope="col">Cantitate</th>
-                            <th scope="col">Total aparat (kW)</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <?php
-                            $i = 1;
-
-                            $totalPower = 0;
-                            $totalRunTime = 0;
-                            $totalCount = 0;
-
-                            $grandTotalConsum = 0;
-
-                            $costTotal = 0;
-
-                            foreach ($_GET['consumers'] as $consumer) {
-                                $totalPower += (int)$consumer['power'] / 1000;
-                                $totalRunTime += (int)$consumer['runTime'] * 30;
-                                $totalCount += (int)$consumer['count'];
-
-                                $total = ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
-                                $grandTotalConsum += $total;
-
-                                echo '<tr>';
-                                echo '<td>' . $i . '</td>';
-                                echo '<td>' . $consumer['brand'] . '</td>';
-                                echo '<td>' . $consumer['energyClass'] . '</td>';
-                                echo '<td>' . $consumer['name'] . '</td>';
-                                echo '<td>' . number_format(((int)$consumer['power'] / 1000), 2) . '</td>';
-                                echo '<td>' . number_format((int)$consumer['runTime'] * 30, 2) . '</td>';
-                                echo '<td>' . number_format((int)$consumer['count'], 2) . '</td>';
-                                echo '<td>' . number_format($total, 2) . ' kW</td>';
-                                echo '</tr>';
-                                $i++;
+                            echo "<h2>" . number_format($grandTotalConsum, 2) . " kW</h2>";
+                            $consumTotalLunarLei = 0;
+                            if ($grandTotalConsum <= 100) {
+                                $consumTotalLunarLei = $grandTotalConsum * 0.68;
+                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                                echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) .  ' Kw = 0.68 Lei/kW</h5>';
+                            } elseif ($grandTotalConsum <= 255) {
+                                $consumTotalLunarLei = $grandTotalConsum * 0.80;
+                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                                echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 0.80 Lei/kW</h5>';
+                            } elseif ($grandTotalConsum <= 300) {
+                                $consumTotalLunarLei = ((255 * 0.8) + (($grandTotalConsum - 255) * 1.3));
+                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                                echo '<h5>0.00 - 255.00 Kw = 0.80 Lei/kW</h5>';
+                                echo '<h5>255.01 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
+                            } else {
+                                $consumTotalLunarLei = $grandTotalConsum * 1.30;
+                                echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
+                                echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' kWh = 1.30 Lei/kWh</h5>';
                             }
-                        ?>
-                        <tr>
-                            <td colspan="4">Total</td>
-                            <td><?php echo number_format($totalPower, 2); ?></td>
-                            <td><?php echo number_format($totalRunTime, 2); ?></td>
-                            <td><?php echo number_format($totalCount, 2); ?></td>
-                            <td><?php echo number_format($grandTotalConsum, 2) . " kW"; ?>
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-10 offset-1 mt-5 text-center">
-                    <h1 class="h3 mb-3 fw-normal">Consum total lunar</h1>
-                        <?php
-                             echo "<h2>" . number_format($grandTotalConsum, 2) . " kW</h2>";
-                        $consumTotalLunarLei = 0;
-                        if ($grandTotalConsum <= 100) {
-                            $consumTotalLunarLei = $grandTotalConsum * 0.68;
-                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                            echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) .  ' Kw = 0.68 Lei/kW</h5>';
-                        } elseif ($grandTotalConsum <= 255) {
-                            $consumTotalLunarLei = $grandTotalConsum * 0.80;
-                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                            echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' Kw = 0.80 Lei/kW</h5>';
-                        } elseif ($grandTotalConsum <= 300) {
-                            $consumTotalLunarLei = ((255 * 0.8) + (($grandTotalConsum - 255) * 1.3));
-                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                            echo '<h5>0.00 - 255.00 Kw = 0.80 Lei/kW</h5>';
-                            echo '<h5>255.01 - ' . number_format($grandTotalConsum, 2) . ' Kw = 1.3 Lei/kW</h5>';
-                        } else {
-                            $consumTotalLunarLei = $grandTotalConsum * 1.30;
-                            echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
-                            echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' kWh = 1.30 Lei/kWh</h5>';
-                        }
-                        ?>
+                            ?>
+                        </div>
+                    </div>
                 </div>
                 <?php if (!empty($userSettings['venitLunar']) && !empty($userSettings['numarulMembrilor'])) { ?>
-                    <div class="col-10 offset-1 mt-5 text-center">
-                        <?php
-                            $totalsArray = [];
+                    <div class="col-6 mt-3 text-center">
+                        <div class="card h-100">
+                            <div class="card-body">
+                                <?php
+                                $totalsArray = [];
 
-                            $history_query = mysqli_query($con, "SELECT `id`, `content`, `content_hash`, `created_at` FROM `results_history`  WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` DESC");
-                            if (mysqli_num_rows($history_query)) {
-                                while ($historyRow = mysqli_fetch_assoc($history_query)) {
-                                    $consumTotalLunarLei = 0;
-                                    $totalPower = 0;
-                                    $totalRunTime = 0;
-                                    $totalCount = 0;
+                                $history_query = mysqli_query($con, "SELECT `id`, `content`, `content_hash`, `created_at` FROM `results_history`  WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` DESC");
+                                if (mysqli_num_rows($history_query)) {
+                                    while ($historyRow = mysqli_fetch_assoc($history_query)) {
+                                        $consumTotalLunarLei = 0;
+                                        $totalPower = 0;
+                                        $totalRunTime = 0;
+                                        $totalCount = 0;
 
-                                    foreach (json_decode($historyRow['content'], true) as $consumer) {
+                                        foreach (json_decode($historyRow['content'], true) as $consumer) {
 
-                                        $totalPower += (int)$consumer['power'] / 1000;
-                                        $totalRunTime += (int)$consumer['runTime'] * 30;
-                                        $totalCount += (int)$consumer['count'];
+                                            $totalPower += (int)$consumer['power'] / 1000;
+                                            $totalRunTime += (int)$consumer['runTime'] * 30;
+                                            $totalCount += (int)$consumer['count'];
 
-                                        $total = ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
-                                        $totalsArray[] = $total;
+                                            $total = ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
+                                            $totalsArray[] = $total;
+                                        }
                                     }
-                                }
 
 //                                $totalsArray[] = $grandTotalConsum;
 //
@@ -222,63 +239,65 @@
 //                                    echo abs($copacei) . ' copacei pierduti prin cresterea consumului cu ' . abs($copacei) * 10 . ' kW raportat la prima simulare';
 //                                }
 
-                                $firstSimulationQuery = mysqli_query($con, "SELECT `content` FROM `results_history` WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` ASC LIMIT 1");
+                                    $firstSimulationQuery = mysqli_query($con, "SELECT `content` FROM `results_history` WHERE `user_id` = " . $_SESSION['audit_logged_in_user_id'] . " ORDER BY `id` ASC LIMIT 1");
 
-                                if (mysqli_num_rows($firstSimulationQuery)) {
-                                    $firstSimulation = mysqli_fetch_assoc($firstSimulationQuery);
-                                    $firstTotal = 0;
+                                    if (mysqli_num_rows($firstSimulationQuery)) {
+                                        $firstSimulation = mysqli_fetch_assoc($firstSimulationQuery);
+                                        $firstTotal = 0;
 
-                                    foreach (json_decode($firstSimulation['content'], true) as $consumer) {
-                                        $firstTotal += ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
-                                    }
+                                        foreach (json_decode($firstSimulation['content'], true) as $consumer) {
+                                            $firstTotal += ((int)$consumer['power'] / 1000) * ((int)$consumer['runTime'] * 30) * (int)$consumer['count'];
+                                        }
 
-                                    $difference = $firstTotal - $grandTotalConsum;
-                                    $copacei = $difference / 10;
+                                        $difference = $firstTotal - $grandTotalConsum;
+                                        $copacei = $difference / 10;
 
-                                    if ($copacei > 0) {
-                                        echo '<h1>Copaci salvati fata de prima simulare</h1>';
-                                        echo number_format($copacei, 1) . ' copacei salvati prin reducerea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
+                                        if ($copacei > 0) {
+                                            echo '<h1>Copaci salvați față de prima simulare</h1>';
+                                            echo number_format($copacei, 1) . ' copăcei salvați prin reducerea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
 
-                                    } else {
-                                        echo '<h1>Copaci pierduti fata de prima simulare</h1>';
-                                        echo number_format(abs($copacei), 1) . ' copacei pierduti prin cresterea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
-                                    }
-                                    if (!$alreadyExists) {
-                                        echo '<br /><span class="text-warning">(Salvează această simulare pentru a fi inclusă în comparațiile viitoare.)</span>';
+                                        } else {
+                                            echo '<h2>Copaci pierduti fata de prima simulare</h2>';
+                                            echo number_format(abs($copacei), 1) . ' copăcei pierduți prin creșterea consumului cu ' . number_format(abs($difference), 1) . ' kW.';
+                                        }
+                                        if (!$alreadyExists) {
+                                            echo '<br /><span class="text-warning">(Salvează această simulare pentru a fi inclusă în comparațiile viitoare.)</span>';
+                                        }
                                     }
                                 }
-                            }
-                        ?>
-                        <h1 class="h3 mb-3 fw-normal">Status</h1>
-                        <?php
-                            $procentConsumPersoana =  ($consumTotalLunarLei  * 100) / ((int)$userSettings['venitLunar'] / (int)$userSettings['numarulMembrilor']);
+                                ?>
+                                <h1 class="h3 mb-3 fw-normal">Status</h1>
+                                <?php
+                                $procentConsumPersoana =  ($consumTotalLunarLei  * 100) / ((int)$userSettings['venitLunar'] / (int)$userSettings['numarulMembrilor']);
 
-                            if ($procentConsumPersoana <= 5) {
-                                echo '<div class="alert alert-success my-4" role="alert">Consum optim!</div>';
-                            } elseif ($procentConsumPersoana <= 15) {
-                                echo '<div class="alert alert-warning my-4" role="alert">Consum moderat!</div>';
-                                echo '<h1 class="h3 mb-3 fw-normal">Recomandari:</h1>';
-                                echo '<ul class="list-group">';
-                                echo '<li class="list-group-item">Panouri fotofoltaice</li>';
-                                echo '<li class="list-group-item">Prize inteligente multiple</li>';
-                                echo '<li class="list-group-item">Termostat</li>';
-                                echo '<li class="list-group-item">Monitorizare live a consumului prin senzori inteligenti.</li>';
-                                echo '</ul>';
-                            } else {
-                                echo '<div class="alert alert-danger my-4" role="alert">Risipa energetica!</div>';
-                                echo '<h1 class="h3 mb-3 fw-normal">Recomandari:</h1>';
-                                if ($userSettings['venitLunar'] <= 3000) {
+                                if ($procentConsumPersoana <= 5) {
+                                    echo '<div class="alert alert-success my-4" role="alert">Consum optim!</div>';
+                                } elseif ($procentConsumPersoana <= 15) {
+                                    echo '<div class="alert alert-warning my-4" role="alert">Consum moderat!</div>';
+                                    echo '<h1 class="h3 mb-3 fw-normal">Recomandari:</h1>';
                                     echo '<ul class="list-group">';
-                                    echo '<li class="list-group-item">Redu numarul de ore de funcionare.</li>';
-                                    echo '<li class="list-group-item">Inlocuirea cu produse second-hamd mai eficiente.</li>';
+                                    echo '<li class="list-group-item">Panouri fotofoltaice</li>';
+                                    echo '<li class="list-group-item">Prize inteligente multiple</li>';
+                                    echo '<li class="list-group-item">Termostat</li>';
+                                    echo '<li class="list-group-item">Monitorizare live a consumului prin senzori inteligenti.</li>';
                                     echo '</ul>';
+                                } else {
+                                    echo '<div class="alert alert-danger my-4" role="alert">Risipa energetica!</div>';
+                                    echo '<h1 class="h3 mb-3 fw-normal">Recomandari:</h1>';
+                                    if ($userSettings['venitLunar'] <= 3000) {
+                                        echo '<ul class="list-group">';
+                                        echo '<li class="list-group-item">Redu numarul de ore de funcionare.</li>';
+                                        echo '<li class="list-group-item">Inlocuirea cu produse second-hamd mai eficiente.</li>';
+                                        echo '</ul>';
+                                    }
                                 }
-                            }
-                        ?>
+                                ?>
+                            </div>
+                        </div>
                     </div>
                 <?php } ?>
                 <div class="col-10 offset-1 mt-5 text-center">
-                    <a href="/index.php?recalculeaza=true&<?php echo http_build_query($_GET) ?>" class="btn btn-primary py-2 w-25 mb-4"><i
+                    <a href="/index.php?recalculeaza=true&<?php echo http_build_query($_GET) ?>" class="btn btn-secondary py-2 w-25 mb-4"><i
                                 class="fa-solid fa-calculator"></i> Recalculeaza
                     </a>
                     <br />
@@ -292,6 +311,8 @@
                     </a>
                 <?php } ?>
                 </div>
+            </div>
+            </div>
             </div>
         </main>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>

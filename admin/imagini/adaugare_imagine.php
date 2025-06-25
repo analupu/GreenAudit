@@ -68,51 +68,54 @@ if (isset($_POST['submit'])) {
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/head.php'; ?>
 </head>
 <body>
-<?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
 <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/nav.php'; ?>
-<main class="d-flex">
+<main class="d-flex my-5">
     <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/admin/inc/side_nav.php'; ?>
     <div class="container-fluid">
         <div class="row">
             <div class="col-6 offset-3">
-                <form action="" method="post" enctype="multipart/form-data">
-                    <h1><?php echo empty($imagine) ? 'Adaugă imagine' : 'Editează imagine'; ?></h1>
+                <div class="card">
+                    <div class="card-body">
+                        <form action="" method="post" enctype="multipart/form-data">
+                            <h1><?php echo empty($imagine) ? 'Adaugă imagine' : 'Editează imagine'; ?></h1>
+                            <hr />
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingTitle" placeholder="Titlu" name="title" required value="<?php echo $imagine['title'] ?? ''; ?>" />
+                                <label for="floatingTitle">Titlu</label>
+                            </div>
 
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingTitle" placeholder="Titlu" name="title" required value="<?php echo $imagine['title'] ?? ''; ?>" />
-                        <label for="floatingTitle">Titlu</label>
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingDesc" placeholder="Descriere" name="description" required value="<?php echo $imagine['description'] ?? ''; ?>" />
+                                <label for="floatingDesc">Descriere</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="text" class="form-control" id="floatingCategory" placeholder="Categorie" name="category" required value="<?php echo $imagine['category'] ?? ''; ?>" />
+                                <label for="floatingCategory">Categorie</label>
+                            </div>
+
+                            <div class="form-floating mb-3">
+                                <input type="file" class="form-control" id="image" placeholder="Imagine" name="image" <?php if (empty($imagine)) echo 'required'; ?> />
+                                <label for="image">Imagine</label>
+                            </div>
+
+                            <?php
+                            if (isset($_POST['submit']) && !empty($upload_errors)) {
+                                echo '<div class="alert alert-danger my-4">' . $upload_errors . '</div>';
+                            }
+
+                            if (!empty($imagine) && isset($imagine['image_url'])) {
+                                echo '<p>Imagine curentă:</p>';
+                                echo '<img src="/uploads_gallery/' . $imagine['image_url'] . '" class="img-fluid mb-3" />';
+                            }
+                            ?>
+
+                            <button class="btn btn-primary w-100 py-2" type="submit" name="submit">
+                                <?php echo empty($imagine) ? '<i class="fa-solid fa-add"></i> Adaugă' : '<i class="fa-solid fa-pen"></i> Editează'; ?>
+                            </button>
+                        </form>
                     </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingDesc" placeholder="Descriere" name="description" required value="<?php echo $imagine['description'] ?? ''; ?>" />
-                        <label for="floatingDesc">Descriere</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="text" class="form-control" id="floatingCategory" placeholder="Categorie" name="category" required value="<?php echo $imagine['category'] ?? ''; ?>" />
-                        <label for="floatingCategory">Categorie</label>
-                    </div>
-
-                    <div class="form-floating mb-3">
-                        <input type="file" class="form-control" id="image" placeholder="Imagine" name="image" <?php if (empty($imagine)) echo 'required'; ?> />
-                        <label for="image">Imagine</label>
-                    </div>
-
-                    <?php
-                    if (isset($_POST['submit']) && !empty($upload_errors)) {
-                        echo '<div class="alert alert-danger my-4">' . $upload_errors . '</div>';
-                    }
-
-                    if (!empty($imagine) && isset($imagine['image_url'])) {
-                        echo '<p>Imagine curentă:</p>';
-                        echo '<img src="/uploads_gallery/' . $imagine['image_url'] . '" class="img-fluid mb-3" />';
-                    }
-                    ?>
-
-                    <button class="btn btn-primary w-100 py-2" type="submit" name="submit">
-                        <?php echo empty($imagine) ? '<i class="fa-solid fa-add"></i> Adaugă' : '<i class="fa-solid fa-pen"></i> Editează'; ?>
-                    </button>
-                </form>
+                </div>
             </div>
         </div>
     </div>

@@ -3,13 +3,13 @@ $(function() {
         e.preventDefault();
         var url = e.currentTarget.getAttribute('href');
         Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            title: "Esti sigur?",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
+            confirmButtonText: "Da",
+            cancelButtonText: "Nu"
         }).then((result) => {
             if (result.isConfirmed) {
                 window.location.href = url;
@@ -36,22 +36,20 @@ var optionsTon = {
     chart: {
         type: 'bar',
         height: 600,
-        background: '#2b3035',
         toolbar: { show: false }
     },
-    theme: { mode: 'dark' },
     title: {
         text: 'Distribuția tonului comentariilor',
         align: 'center',
-        style: { color: '#fff', fontSize: '18px' }
+        style: {
+            fontSize: '20px'
+        }
     },
     xaxis: {
         categories: [],
-        labels: { style: { colors: '#ccc' } }
     },
     yaxis: {
-        title: { text: 'Număr comentarii', style: { color: '#ccc' } },
-        labels: { style: { colors: '#ccc' } }
+        title: { text: 'Număr comentarii'},
     },
     colors: ['#198754', '#6c757d', '#dc3545'],
     series: [{
@@ -81,29 +79,22 @@ var optionsHeatmap = {
     chart: {
         type: 'heatmap',
         height: 600,
-        background: '#2b3035',
         toolbar: { show: false }
     },
     dataLabels: {
         enabled: true,
         style: {
-            colors: ['#ffffff'],
             fontSize: '14px',
-            fontWeight: 'bold'
+            fontWeight: 'bold',
         }
     },
-    theme: { mode: 'dark' },
     colors: ['#28a745'],
     title: {
         text: 'Distribuția tonului pe ultimele comentarii',
-        style: { color: '#fff' },
-        align: 'center'
-    },
-    xaxis: {
-        labels: { style: { colors: '#ccc' } }
-    },
-    yaxis: {
-        labels: { style: { colors: '#ccc' } }
+        align: 'center',
+        style: {
+            fontSize: '20px'
+        }
     },
     plotOptions: {
         heatmap: {

@@ -37,21 +37,20 @@
         <link href="/assets/css/sign-in.css" rel="stylesheet">
     </head>
     <body>
-        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
-        <main class="form-signin w-100 m-auto">
+        <main class="form-signin w-100 m-auto mt-5">
             <form action="" method="post">
                 <h1 class="h3 mb-3 fw-normal">Please log in</h1>
                 <div class="form-floating mb-3">
-                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email"/>
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" name="email" required />
                     <label for="floatingInput">Email address</label>
                 </div>
                 <div class="form-floating">
-                    <input type="password" class="form-control m-0" id="floatingPassword" placeholder="Password" name="password"/>
+                    <input type="password" class="form-control m-0" id="floatingPassword" placeholder="Password" name="password" required />
                     <label for="floatingPassword">Password</label>
                 </div>
                 <a href="/my_account/forgottenPassword.php">Resetare parola</a>
-                <button class="btn btn-primary w-100 py-2 my-3" type="submit" name="submit">Login</button>
+                <button class="btn btn-primary w-100 py-2 my-3" type="submit" name="submit"><i class="fa-solid fa-right-from-bracket"></i> Conectare</button>
                 <?php
                     if (isset($_POST['submit'])) {
                         if ($error) {

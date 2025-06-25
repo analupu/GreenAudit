@@ -1,5 +1,10 @@
 <?php
     require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/check_login.php';
+
+    if (!$is_logged) {
+        header('Location: /login.php');
+        die;
+    }
 ?>
 
 <!doctype html>
@@ -8,13 +13,15 @@
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/head.php'; ?>
     </head>
     <body>
-        <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/theme_switcher.php'; ?>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/nav.php'; ?>
         <main class="container">
-            <button class="btn btn-primary my-2" type="button" name="submit" id="btnAdaugaAparatNou"><i
-                        class="fa-solid fa-add"></i> Adauga aparat nou
-            </button>
-            <div class="bg-body-tertiary p-5 rounded row">
+            <div class="text-center">
+                <button class="btn btn-primary my-4" type="button" name="submit" id="btnAdaugaAparatNou"><i
+                            class="fa-solid fa-add"></i> Adauga aparat nou
+                </button>
+            </div>
+            <div class="card">
+                <div class="card-body">
                 <form action="rezultat.php" method="get">
                     <h1 class="h3 mb-3 fw-normal text-center">Introduceti datele despre consumul zilnic</h1>
                     <div id="consumersWrapper" class="d-flex flex-wrap">
@@ -50,7 +57,7 @@
                                                    placeholder="Ore funcionare consumator" name="consumers[<?php echo $i; ?>][runTime]" value="<?php echo $consumer['runTime'] ?>" required/>
                                             <label for="consumerRunTime<?php echo $i; ?>">Ore functionare consumator</label>
                                         </div>
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating">
                                             <input type="number" class="form-control" id="consumerPower<?php echo $i; ?>" placeholder="Putere (W)"
                                                    name="consumers[<?php echo $i; ?>][power]" value="<?php echo $consumer['power'] ?>" required/>
                                             <label for="consumerPower<?php echo $i; ?>">Putere (W)</label>
@@ -91,7 +98,7 @@
                                                    placeholder="Ore funcionare consumator" name="consumers[0][runTime]" required/>
                                             <label for="consumerRunTime">Ore functionare consumator</label>
                                         </div>
-                                        <div class="form-floating mb-3">
+                                        <div class="form-floating">
                                             <input type="number" class="form-control" id="consumerPower" placeholder="Putere (W)"
                                                    name="consumers[0][power]" required/>
                                             <label for="consumerPower">Putere (W)</label>
@@ -101,10 +108,13 @@
                             </div>
                         <?php }?>
                     </div>
-                    <button class="btn btn-primary w-100 py-2" type="submit" name="submit"><i
-                                class="fa-solid fa-calculator"></i> Calculeaza
-                    </button>
+                    <div class="text-center">
+                        <button class="btn btn-primary py-2" type="submit" name="submit"><i
+                                    class="fa-solid fa-calculator"></i> Calculeaza
+                        </button>
+                    </div>
                 </form>
+                </div>
             </div>
         </main>
         <?php require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/javascript.php'; ?>
