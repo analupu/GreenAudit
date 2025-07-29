@@ -185,6 +185,7 @@
                                 echo '<h2 class="mb-4">' . number_format($consumTotalLunarLei, 2) . ' Lei</h2>';
                                 echo '<h5>0.00 - ' . number_format($grandTotalConsum, 2) . ' kWh = 1.30 Lei/kWh</h5>';
                             }
+                            $consumCurentLei = $consumTotalLunarLei; //------ aici
                             ?>
                         </div>
                     </div>
@@ -268,26 +269,30 @@
                                 ?>
                                 <h1 class="h3 mb-3 fw-normal">Status</h1>
                                 <?php
-                                $procentConsumPersoana =  ($consumTotalLunarLei  * 100) / ((int)$userSettings['venitLunar'] / (int)$userSettings['numarulMembrilor']);
+                                $procentConsumPersoana =  ($consumCurentLei * 100) / ((int)$userSettings['venitLunar'] / (int)$userSettings['numarulMembrilor']);
 
                                 if ($procentConsumPersoana <= 5) {
                                     echo '<div class="alert alert-success my-4" role="alert">Consum optim!</div>';
                                 } elseif ($procentConsumPersoana <= 15) {
                                     echo '<div class="alert alert-warning my-4" role="alert">Consum moderat!</div>';
-                                    echo '<h1 class="h3 mb-3 fw-normal">Recomandari:</h1>';
+                                    echo '<h1 class="h3 mb-3 fw-normal">Recomandări:</h1>';
                                     echo '<ul class="list-group">';
-                                    echo '<li class="list-group-item">Panouri fotofoltaice</li>';
+                                    echo '<li class="list-group-item">Panouri fotovoltaice</li>';
                                     echo '<li class="list-group-item">Prize inteligente multiple</li>';
                                     echo '<li class="list-group-item">Termostat</li>';
-                                    echo '<li class="list-group-item">Monitorizare live a consumului prin senzori inteligenti.</li>';
+                                    echo '<li class="list-group-item">Monitorizare live a consumului prin senzori inteligenți.</li>';
                                     echo '</ul>';
                                 } else {
-                                    echo '<div class="alert alert-danger my-4" role="alert">Risipa energetica!</div>';
-                                    echo '<h1 class="h3 mb-3 fw-normal">Recomandari:</h1>';
+                                    echo '<div class="alert alert-danger my-4" role="alert">Risipă energetică!</div>';
+                                    echo '<h1 class="h3 mb-3 fw-normal">Recomandări:</h1>';
+                                    echo '<ul class="list-group">';
+                                    echo '<li class="list-group-item">Redu numărul de ore de funcționare.</li>';
+                                    echo '<li class="list-group-item">Înlocuirea cu produse second-hand mai eficiente.</li>';
+                                    echo '</ul>';
                                     if ($userSettings['venitLunar'] <= 3000) {
                                         echo '<ul class="list-group">';
-                                        echo '<li class="list-group-item">Redu numarul de ore de funcionare.</li>';
-                                        echo '<li class="list-group-item">Inlocuirea cu produse second-hamd mai eficiente.</li>';
+                                        echo '<li class="list-group-item">Redu numărul de ore de funcționare.</li>';
+                                        echo '<li class="list-group-item">Înlocuirea cu produse second-hand mai eficiente.</li>';
                                         echo '</ul>';
                                     }
                                 }
@@ -298,16 +303,16 @@
                 <?php } ?>
                 <div class="col-10 offset-1 mt-5 text-center">
                     <a href="/index.php?recalculeaza=true&<?php echo http_build_query($_GET) ?>" class="btn btn-secondary py-2 w-25 mb-4"><i
-                                class="fa-solid fa-calculator"></i> Recalculeaza
+                                class="fa-solid fa-calculator"></i> Recalculează
                     </a>
                     <br />
                 <?php if (!$alreadyExists) { ?>
                     <a href="/rezultat.php?save=true&<?php echo http_build_query($_GET) ?>" class="btn btn-primary py-2 w-25"><i
-                                class="fa-solid fa-save"></i> Salveaza rezultat
+                                class="fa-solid fa-save"></i> Salvează rezultat
                     </a>
                 <?php } else { ?>
                     <a href="/my_account/history.php?entry=<?php echo mysqli_fetch_row($alreadyExistsQuery)[0]; ?>" class="btn btn-primary py-2 w-25"><i
-                                class="fa-solid fa-save"></i> Vezi in istoric
+                                class="fa-solid fa-save"></i> Vezi în istoric
                     </a>
                 <?php } ?>
                 </div>

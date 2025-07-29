@@ -15,7 +15,6 @@ $(window).on('load', function () {
     });
 });
 
-
 $(document).ready(function () {
     $('.btn-like, .btn-dislike').on('click', function () {
         const isLike = $(this).hasClass('btn-like');
@@ -32,4 +31,9 @@ $(document).ready(function () {
         });
     });
 });
+
+
+
+
+
 

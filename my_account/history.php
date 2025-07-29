@@ -42,7 +42,7 @@
                             </li>
                             <li>
                                 <a href="/my_account/settings.php" class="nav-link text-dark"><i class="fa-solid fa-gear"></i>
-                                    Setari
+                                    Setări
                                 </a>
                             </li>
                         </ul>
@@ -332,15 +332,19 @@
                                                                 echo '<li class="list-group-item">Panouri fotofoltaice</li>';
                                                                 echo '<li class="list-group-item">Prize inteligente multiple</li>';
                                                                 echo '<li class="list-group-item">Termostat</li>';
-                                                                echo '<li class="list-group-item">Monitorizare live a consumului prin senzori inteligenti.</li>';
+                                                                echo '<li class="list-group-item">Monitorizare live a consumului prin senzori inteligenți.</li>';
                                                                 echo '</ul>';
                                                             } else {
-                                                                echo '<div class="alert alert-danger my-4" role="alert">Risipa energetica!</div>';
+                                                                echo '<div class="alert alert-danger my-4" role="alert">Risipă energetică!</div>';
                                                                 echo '<h1 class="h3 mb-3 fw-normal">Recomandări:</h1>';
+                                                                echo '<ul class="list-group">';
+                                                                echo '<li class="list-group-item">Redu numărul de ore de funcționare.</li>';
+                                                                echo '<li class="list-group-item">Înlocuirea cu produse second-hand mai eficiente.</li>';
+                                                                echo '</ul>';
                                                                 if ($userSettings['venitLunar'] <= 3000) {
                                                                     echo '<ul class="list-group">';
-                                                                    echo '<li class="list-group-item">Redu numarul de ore de funcionare.</li>';
-                                                                    echo '<li class="list-group-item">Inlocuirea cu produse second-hamd mai eficiente.</li>';
+                                                                    echo '<li class="list-group-item">Redu numărul de ore de funcționare.</li>';
+                                                                    echo '<li class="list-group-item">Înlocuirea cu produse second-hand mai eficiente.</li>';
                                                                     echo '</ul>';
                                                                 }
                                                             }
@@ -352,11 +356,11 @@
                                             </div>
                                             <div class="col-8 offset-2 mt-5 text-center">
                                                 <a href="/index.php?recalculeaza=true&<?php echo http_build_query(['consumers' => json_decode($historyRow['content'], true)]); ?>" class="btn btn-primary py-2 mb-4"><i
-                                                            class="fa-solid fa-calculator"></i> Recalculeaza
+                                                            class="fa-solid fa-calculator"></i> Recalculează
                                                 </a>
                                                 <br />
                                                 <a href="/my_account/history.php?delete_id=<?php echo $historyRow['id']; ?>" class="btn btn-danger py-2 deleteHistoryRecord"><i
-                                                            class="fa-solid fa-trash"></i> Sterge
+                                                            class="fa-solid fa-trash"></i> Șterge
                                                 </a>
                                             </div>
                                         </div>
@@ -367,7 +371,7 @@
                             $ia++;
                         } ?>
                     <?php } else { ?>
-                        Nu exista date!
+                        Nu există date!
                 <?php } ?>
             </div>
                 </div>

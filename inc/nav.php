@@ -36,10 +36,10 @@ require_once $_SERVER['DOCUMENT_ROOT'] . '/inc/config.php';
                             }
                         ?>
                         <a class="btn btn-outline-primary me-4 <?= $_SERVER['PHP_SELF'] == '/my_account/index.php' || $_SERVER['PHP_SELF'] == '/my_account/history.php' || $_SERVER['PHP_SELF'] == '/my_account/settings.php'? 'active fw-bold' : '' ?>" href="/my_account/index.php"><i class="fa-solid fa-user"></i> Contul meu</a>
-                        <a class="btn btn-outline-danger me-4" href="/my_account/index.php?logout"><i class="fa-solid fa-right-from-bracket"></i> Iesire</a>
+                        <a class="btn btn-outline-danger me-4" href="/my_account/index.php?logout"><i class="fa-solid fa-right-from-bracket"></i> Ieșire</a>
                     <?php } else { ?>
                         <a class="btn btn-outline-primary me-4" href="/login.php"><i class="fa-solid fa-right-from-bracket"></i> Conectare</a>
-                        <a class="btn btn-outline-success me-4" href="/register.php"><i class="fa-solid fa-user-plus"></i> Inregistrare</a>
+                        <a class="btn btn-outline-success me-4" href="/register.php"><i class="fa-solid fa-user-plus"></i> Înregistrare</a>
                     <?php } ?>
                 </ul>
             </form>
