@@ -36,7 +36,8 @@ Admin functionalities:
 - Add, edit, and delete articles and categories
 - Moderate comments, with automatic sentiment analysis based on keywords (positive, neutral, negative)
 - Manage the image gallery and descriptions
-## Security feature: ## Password reset mechanism via MailTrap with a one-time MD5-hashed token that expires after use.
+## Security feature: ## 
+Password reset mechanism via MailTrap with a one-time MD5-hashed token that expires after use.
 
 ##
 Database Notice
