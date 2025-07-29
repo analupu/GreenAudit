@@ -30,7 +30,7 @@ Purpose: This section helps users understand the real consequences of excessive 
   - Configure personal details such as household size, income, and housing type
 ##
 4. Admin Panel
-Separate authentication for administrators with isolated session handling
+- Separate authentication for administrators with isolated session handling
 Admin functionalities:
 - Manage users (block/unblock accounts)
 - Add, edit, and delete articles and categories
