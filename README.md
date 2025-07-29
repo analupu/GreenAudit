@@ -1,5 +1,4 @@
-# 🌱 GreenAudit
-Web application for calculating and monitoring energy consumption
+# 🌱 GreenAudit - Web application for calculating and monitoring energy consumption
 
 GreenAudit is a web application designed to calculate and monitor energy consumption while educating users to adopt a more sustainable lifestyle.
 # Key Features
