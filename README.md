@@ -39,6 +39,5 @@ Admin functionalities:
 ## Security feature: ## 
 Password reset mechanism via MailTrap with a one-time MD5-hashed token that expires after use.
 
-##
 Database Notice
-The application cannot be executed online because it relies on a local database. For security and data integrity reasons, the database is not included in this repository.
+- The application cannot be executed online because it relies on a local database. For security and data integrity reasons, the database is not included in this repository.
